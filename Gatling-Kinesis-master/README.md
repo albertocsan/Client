@@ -32,10 +32,4 @@ Run a single simulation
 
 ```bash
 > gatling:testOnly PutRecordsInKinesisStream 
-<<<<<<< HEAD
 ```
-=======
-```
-
-
->>>>>>> 04dabebab068b6f30d61ed7eb90b4ab2bc08e3cf
