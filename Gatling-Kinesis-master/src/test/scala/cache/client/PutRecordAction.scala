@@ -7,7 +7,7 @@ import io.gatling.core.session.Session
 import io.gatling.core.stats.StatsEngine
 import io.gatling.core.stats.message.ResponseTimings
 
-class PutRecordAction(protocol: VODPlayback, val next: Action, statsEngine: StatsEngine, eventCount : Int) extends ActionActor {
+class PutRecordAction(protocol: Workbench, val next: Action, statsEngine: StatsEngine, eventCount : Int) extends ActionActor {
 
   override def execute(session: Session): Unit = {
     val start = TimeHelper.nowMillis

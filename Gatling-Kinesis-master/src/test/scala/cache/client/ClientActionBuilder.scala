@@ -6,7 +6,7 @@ import io.gatling.core.action.{Action, ExitableActorDelegatingAction}
 import io.gatling.core.structure.ScenarioContext
 import io.gatling.jms.action.JmsReqReply.genName
 
-class ClientActionBuilder(eventCount: Int, protocol: VODPlayback) extends ActionBuilder {
+class ClientActionBuilder(eventCount: Int, protocol: Workbench) extends ActionBuilder {
 
   override def build(context: ScenarioContext, nextAction: Action): Action = {
     val statsEngine = context.coreComponents.statsEngine

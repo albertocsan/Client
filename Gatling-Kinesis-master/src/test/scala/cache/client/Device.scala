@@ -3,40 +3,38 @@ package cache.client
 import java.nio.ByteBuffer
 import com.amazonaws.AmazonClientException
 import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
 import com.amazonaws.services.kinesis.AmazonKinesisClient
 import com.amazonaws.services.kinesis.model.{PutRecordRequest}
 import io.gatling.core.protocol._
-import cache.infrastructure.{EventConfig, EventFileLoader}
 import org.joda.time.DateTime
-
-
 import scala.collection.JavaConverters._
+import tvmetrix.client.java._
 
-class VODPlayback(config : EventConfig,kinesisStream: String) extends Protocol {
+
+class Device(kinesisStream: String) extends Protocol {
+
+  val utils =  new Utils()
+  val deviceInfo = utils.generateDevice()
   val kinesisClient = new AmazonKinesisClient()
-  //val sessions : Map = new Map<Integer, PlaybackSession>();
+  var region = Regions.US_EAST_1
+  val vod = new VOD(deviceInfo)
 
-  kinesisClient.setRegion(Region.getRegion(config.region))
+  kinesisClient.setRegion(Region.getRegion(region))
   checkIsAuthorised(kinesisClient)
-  
-  /*def execute(data_blob_count : Int, user_id : Long) = {
-    PlaybackSession playback_session;
-    if (sessions.get(user_id)) {
-        playback_session = sessions.get(user_id);
-    } else {
-        playback_session = new PlaybackSession(kinesisStream);
-        sessions.put(user_id, playback_session);
-    }
-    playback_session.execute();
-  }*/
 
-  def execute(data_blob_count : Int, user_id : Long) = {
+  def execute() = {
+
+    val sentToKinesis = vod.executeISession()
+
+    //  <---- KINESIS ---->
     val request = new PutRecordRequest()
     request.setStreamName(kinesisStream)
-    val jsonPayload = serialNumberGenerator(getBaseEventJson)
+    val jsonPayload = serialNumberGenerator(sentToKinesis)
     request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
     request.setPartitionKey(util.Random.nextInt(10000).toString)
     kinesisClient.putRecord(request)
+
   }
 
   private def serialNumberGenerator(jsonData:String): String ={
@@ -46,13 +44,9 @@ class VODPlayback(config : EventConfig,kinesisStream: String) extends Protocol {
                    .replace("${sentAt}", DateTime.now().toString())
   }
 
-  private def getBaseEventJson: String = {
-    EventFileLoader.getEventJson(config.eventType)
-  }
-
   private def checkIsAuthorised(kinesisClient: AmazonKinesisClient) {
     try {
-          kinesisClient.describeStream("tvmetrix")//Deberia ser automatica y no ponerla a pelo
+          kinesisClient.describeStream(kinesisStream)
     } catch {
       case awsEx : AmazonClientException =>
         println("\nCheck you are logged in to AWS using ADFS (aws-adfs login --profile <ProfileType> --adfs-host <hostName> --region <some-region>)\n")
