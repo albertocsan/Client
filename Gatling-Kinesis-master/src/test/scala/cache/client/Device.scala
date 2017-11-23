@@ -26,6 +26,7 @@ class Device(kinesisStream: String) extends Protocol {
   def execute() = {
 
     val sentToKinesis = vod.executeISession()
+    println ("sentToKinesis " +sentToKinesis)
 
     //  <---- KINESIS ---->
     val request = new PutRecordRequest()
