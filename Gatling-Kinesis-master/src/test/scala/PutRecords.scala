@@ -4,6 +4,11 @@ import cache.helpers.Helpers
 import cache.client.{ClientActionBuilder, Device, Workbench}
 import scala.concurrent.duration._
 import scala.collection.immutable.List
+import java.time.Instant
+import tvmetrix.client.java._
+import java.util.HashMap
+
+
 
 
 class PutRecords extends Simulation{
@@ -17,7 +22,7 @@ class PutRecords extends Simulation{
 
   val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction)
 
-
+ 
   setUp(
     testScenario.inject(
       atOnceUsers(1)

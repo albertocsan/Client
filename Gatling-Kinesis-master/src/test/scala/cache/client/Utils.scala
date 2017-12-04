@@ -2,70 +2,102 @@ package cache.client
 
 import java.util.HashMap
 import tvmetrix.client.java._
+import java.util.ArrayList
+import scala.io.Source
 
-import com.fasterxml.jackson.core.JsonGenerationException
-import com.fasterxml.jackson.core.`type`.TypeReference
-import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.ObjectMapper
+import net.liftweb.json.DefaultFormats
+import net.liftweb.json._
 
 class Utils  {
-	val mapper = new ObjectMapper()
+	/*val random = scala.util.Random
+		this.playposition = random.nextInt*/
+	val indexDevice = 0 
+	val indexProduct = 0 
+	val indexLive = 0
+
+	case class Device (
+		`class`: String,
+		platform: String,
+		platformVersion: String,
+		make: String,
+		model: String,
+		deviceId: String
+	)
+
+	case class Content (
+		contentId: String,
+		//genres: List[String],
+		//parentalRating: String,
+		title: String
+	)
+
+	case class Product (
+		price: Int,
+		productId: String,
+		productName: String,
+		system: String,
+		commercialType: String
+	)
+
+	case class DeliveryVod (
+		//deliveryId: String,
+		//audioLanguages: List[String],
+		//audioFormats: List[String],
+		deliveryContext: String
+	)
+
+	case class DeliveryLive (
+		//deliveryId: String,
+		//audioLanguages: List[String],
+		//audioFormats: List[String],
+		deliveryContext: String,
+		serviceId: String
+	)
+
+	case class ProductContent (
+		content: Content,
+		product: Product,
+		delivery: DeliveryVod
+	)
+
+	case class Channel (
+		serviceId: String,
+		channelName: String,
+		channelNumber: String
+	)
+
+	case class Live (
+		content: Content,
+		channel: Channel,
+		delivery: DeliveryLive
+	)
 	
+	def getDevice() : Device = {
 
-	def generateDevice() :HashMap[String, Object] = {
+		implicit val formats = DefaultFormats
+		val jsonDevices = parse(Source.fromFile("src/test/resources/devices/device.json").mkString)
+		val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
 
-		val jsonDevice : String = "{\"appName\": \"app\",\"appVersion\": \"app-1.0.0\",\"device\":{\"class\":\"MOBILE\",\"platform\":\"Android\",\"platformVersion\":\"6.0\",\"make\":\"Google, Inc.\",\"model\":\"Nexus 6\",\"deviceId\":\"somedeviceid\"}}"
-		println("jsonDevice "+ jsonDevice)
-		var device : HashMap[String, Object] = new HashMap[String, Object]
-		device = mapper.readValue(jsonDevice, new TypeReference[HashMap[String,Object]](){})
-
-		device.put("timeFn", new TvMetrixTimeProvider() {
-			def getCurrentTime() : Long = {
-				var now:Long = System.currentTimeMillis() 
-				return now
-			} 
-		})
-		device.put("putFn", new TvMetrixEventSink() {
-			def put(action:Object , data:String ) {
-			}
-		})
-
-		println("device "+ device)
 		return device
 	}
+
+	def getProduct(): ProductContent = {
+
+		implicit val formats = DefaultFormats
+		val jsonProduct = parse(Source.fromFile("src/test/resources/products/product.json").mkString)
+		val product  = (jsonProduct\"products")(indexProduct).extract[ProductContent]
 		
-	def getSession() : HashMap[String, Object] ={
-		// Create a hashmap representing a new-session action
-		val jsonSession : String = "{\"action\" : \"new-session\", \"params\" : {\"language\":\"SPA\"}}"
-		var session : HashMap[String, Object] = new HashMap[String, Object]
-		session = mapper.readValue(jsonSession, new TypeReference[HashMap[String,Object]](){})
-		println("sessionAction " + session)
-		return session
+		return product
 	}
 
-	def getPlayback() : HashMap[String,Object] = {
+	def getLive(): Live = {
 
-		val jsonPlayback : String = "{\"action\": \"new-playback\", \"params\": { \"content\": {\"contentId\": \"STND2374203619006837\", \"genres\": [\"Infantil\"], \"parentalRating\": \"13\", \"title\": \"George De La Selva\"},\"product\": {\"price\": 0, \"productId\": \"PROD9860312645007022\", \"productName\": \"HD\", \"system\": \"CMS\", \"commercialType\": \"SVOD\"},\"options\": {\"videoFormat\": \"HD\", \"audioFormat\": \"stereo\", \"audioMode\": \"decode\"}, \"playposition\": 0,\"delivery\": {\"deliveryId\": \"DLVY9860312487005679\", \"audioLanguages\": [\"QAA\", \"SPA\"], \"audioFormats\": [\"stereo\"],\"deliveryContext\": \"VOD\"},\"subscription\": {\"subscriptionPackageId\": \"1297969\", \"subscriptionServiceId\": \"173\", \"subscriptionServiceName\": \"urn:tve:hbo\", \"subscriptionPackageName\": \"SVOD - Full\"},\"pageName\": \"Kids Home|George De La Selva\", \"appSection\": \"catalogue\" }}"
-		var playback : HashMap[String, Object] = new HashMap[String, Object]
-		playback = mapper.readValue(jsonPlayback, new TypeReference[HashMap[String,Object]](){})
-
-		println("newPlayback "+playback)		
-		return playback
-
+		implicit val formats = DefaultFormats
+		val jsonLive = parse(Source.fromFile("src/test/resources/live/live.json").mkString)
+		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
+		
+		return liveContent
 	}
-	def getUpdatePlayback() : HashMap[String,Object] = {
-
-		val jsonUpdatePlayback : String = "{\"action\":\"update-playback\",\"params\":{\"playtime\":\"2017-09-01T19:44:14.012Z\"}}"
-		var updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
-		updatePlayback = mapper.readValue(jsonUpdatePlayback, new TypeReference[HashMap[String,Object]](){})
-
-		println("updatePlayback "+updatePlayback)		
-		return updatePlayback
-	}
+		
 	
-	def getVODAction(index:Int): HashMap[String, Object] = {
-		val listActions : List[HashMap[String, Object]] = List(getSession())
-
-		return listActions(index)
-	}
 }

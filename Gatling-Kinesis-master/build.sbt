@@ -6,5 +6,6 @@ libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "
 libraryDependencies += "io.gatling"            % "gatling-test-framework"    % "2.2.2" % "test"
 libraryDependencies += "joda-time" % "joda-time" % "2.9.6"
 libraryDependencies += "com.amazonaws"  % "aws-java-sdk"    % "1.11.220"
+libraryDependencies += "net.liftweb" %% "lift-json" % "3.2.0-M3"
 
 
