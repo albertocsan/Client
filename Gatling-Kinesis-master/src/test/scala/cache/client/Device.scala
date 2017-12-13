@@ -14,6 +14,8 @@ import java.util.HashMap
 
 
 class Device(kinesisStream: String) extends Protocol {
+    val utils =  new Utils()
+    val deviceInfo = utils.getDevice()
 
   val kinesisClient = new AmazonKinesisClient()
   var region = Regions.US_EAST_1
@@ -22,6 +24,8 @@ class Device(kinesisStream: String) extends Protocol {
   val client  = TvMetrix.create(msgDeviceInfo())
   val listSession : List[String] = List("START","LIVE")//leer de fichero de configuracion
   var indexSession : Int = 0
+
+
   
   def execute() = {
     var sentToKinesis = ""
@@ -31,10 +35,10 @@ class Device(kinesisStream: String) extends Protocol {
       sentToKinesis = buildStart()
     } else if (sessionType == "VOD") {
       val vod = new VOD(client)
-      sentToKinesis = vod.executeNextAction()
+      sentToKinesis = vod.executeNextAction(deviceInfo.resolution)
     } else if (sessionType == "LIVE"){
       val live = new LIVE(client)
-      sentToKinesis = live.executeNextAction()
+      sentToKinesis = live.executeNextAction(deviceInfo.resolution)
     } else {
       sentToKinesis = "Session Error"
     }
@@ -55,10 +59,7 @@ class Device(kinesisStream: String) extends Protocol {
 
   //<---- GENERATE DEVICE ---->
   def msgDeviceInfo() : HashMap[String,Object] = {
-
-    val utils =  new Utils()
-    val deviceInfo = utils.getDevice()
-    
+   
     val device : HashMap[String, Object] = new HashMap[String, Object]
     device.put("class", deviceInfo.`class`)
     device.put("platform", deviceInfo.platform)

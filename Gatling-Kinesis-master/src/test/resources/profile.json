@@ -1,0 +1,14 @@
+{
+  "profiles": [
+    {
+        "bitrate": 1,
+        "resolution": [1280,768],
+        "frameRate": 3
+    },
+    {
+        "bitrate": 2,
+        "resolution": [1280,768],
+        "frameRate": 4
+    },
+  ]
+}

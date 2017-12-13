@@ -1,0 +1,19 @@
+{
+  "lives": [
+    {
+      "content": {
+        "contentId": "STND2374203619006837",
+        "title": "The Wiz Live!"
+      },
+      "channel": {
+        "serviceId": "97007",
+        "channelName": "Canal de las Estrellas",
+        "channelNumber": "116"
+      },
+      "delivery": {
+        "deliveryContext": "TV",
+        "serviceId": "97007"
+      }
+    }
+  ]
+}

@@ -19,8 +19,9 @@ class PutRecords extends Simulation{
 
   val workbench = new Workbench(kinesisStreamName)
   val clientAction = new ClientActionBuilder(batchSize, workbench)
+  
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).pause(2).exec(clientAction)
 
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction)
 
  
   setUp(

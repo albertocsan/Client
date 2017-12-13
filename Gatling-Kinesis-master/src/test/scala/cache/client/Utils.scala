@@ -14,6 +14,8 @@ class Utils  {
 	val indexDevice = 0 
 	val indexProduct = 0 
 	val indexLive = 0
+	val indexTrack = 0
+	val indexProfile = 0 
 
 	case class Device (
 		`class`: String,
@@ -21,7 +23,8 @@ class Utils  {
 		platformVersion: String,
 		make: String,
 		model: String,
-		deviceId: String
+		deviceId: String,
+		resolution: List[Integer]
 	)
 
 	case class Content (
@@ -54,7 +57,7 @@ class Utils  {
 		serviceId: String
 	)
 
-	case class ProductContent (
+	case class VOD (
 		content: Content,
 		product: Product,
 		delivery: DeliveryVod
@@ -71,33 +74,64 @@ class Utils  {
 		channel: Channel,
 		delivery: DeliveryLive
 	)
+
+	case class Track(
+		`type`: String,
+		coding: String,
+		resolution: String,
+		language: String
+	)
 	
+	case class Profile(
+		bitrate: Integer,
+		resolution: List[Integer],
+		frameRate: Integer
+	)
+
 	def getDevice() : Device = {
 
 		implicit val formats = DefaultFormats
-		val jsonDevices = parse(Source.fromFile("src/test/resources/devices/device.json").mkString)
+		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
 		val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
-
 		return device
 	}
 
-	def getProduct(): ProductContent = {
+	def getVod(): VOD = {
 
 		implicit val formats = DefaultFormats
-		val jsonProduct = parse(Source.fromFile("src/test/resources/products/product.json").mkString)
-		val product  = (jsonProduct\"products")(indexProduct).extract[ProductContent]
+		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
+		val vodContent  = (jsonVod\"products")(indexProduct).extract[VOD]
 		
-		return product
+		return vodContent
 	}
 
 	def getLive(): Live = {
 
 		implicit val formats = DefaultFormats
-		val jsonLive = parse(Source.fromFile("src/test/resources/live/live.json").mkString)
+		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
 		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
 		
 		return liveContent
 	}
+
+	def getTrack(): Track = {
+
+		implicit val formats = DefaultFormats
+		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
+		val trackContent  = (jsonTrack\"tracks")(indexTrack).extract[Track]
+		
+		return trackContent
+	}
+
+	def getProfile(): Profile = {
+
+		implicit val formats = DefaultFormats
+		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
+		val profileContent  = (jsonProfile\"profiles")(indexProfile).extract[Profile]
+		
+		return profileContent
+	}
+	
 		
 	
 }
