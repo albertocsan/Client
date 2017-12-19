@@ -7,11 +7,12 @@ import org.json._
 
 import java.util.ArrayList
 
-class VOD(client : TvMetrixClient) extends ISession{
+import scala.collection.JavaConversions._
+
+class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	val utils =  new Utils()
  	var indexAction : Int = 0
- 	val listActions : List[String] = List("PLAY","UPDATE") //leer de fichero de configuracion
  	var playposition : Int = 0
  	val vodContent  = utils.getVod()
  	val trackContent = utils.getTrack()
@@ -38,7 +39,7 @@ class VOD(client : TvMetrixClient) extends ISession{
 		return jsonToKinesis
 	}
 
-	def buildPlay(resolution : List[Integer]) :  String = {
+	def buildPlay(resolution :java.util.List[Integer]) :  String = {
 
 		/*var genres = new ArrayList[String]()		
 		for (i <- 0 until (vodContent.content.genres).length){
@@ -94,10 +95,6 @@ class VOD(client : TvMetrixClient) extends ISession{
 			tracks.put("language", trackContent.language)
 		}
 		
-
-		val streamingQuality : HashMap[String, Object] = new HashMap[String, Object]
-		streamingQuality.put("bufferLengthTime", new Integer (1))
-
 		var availableBitrates = new ArrayList[Int]()
 		availableBitrates.add(1)
 		availableBitrates.add(2)
@@ -107,9 +104,13 @@ class VOD(client : TvMetrixClient) extends ISession{
 		profile.put("resolution", resolution)
 		profile.put("frameRate", new Integer (profileContent.frameRate))
 
+		val bandwidth : HashMap[String, Object] = new HashMap[String, Object]
+		bandwidth.put("bandwidth", new Integer(1))
+
 		val streaming : HashMap[String, Object] = new HashMap[String, Object]
 		streaming.put("availableBitrates", availableBitrates)
 		streaming.put("currentProfile", profile)
+		streaming.put("currentBandwidth",bandwidth)
 
 		val vst : HashMap[String, Object] = new HashMap[String, Object]
 		vst.put("totalTime", new Integer (1))
@@ -123,9 +124,10 @@ class VOD(client : TvMetrixClient) extends ISession{
 		params.put("product", productParams)
 		//params.put("options", options)
 		params.put("delivery", delivery)
+
+		//OPERACIONAL
 		params.put("tracks", tracks)
 		params.put("streaming", streaming)
-		params.put("streamingQuality", streamingQuality)
 		params.put("vst", vst)
 
 		//params.put("subscription", subscription)
@@ -137,8 +139,14 @@ class VOD(client : TvMetrixClient) extends ISession{
 		playback.put("action", "new-playback")
 		playback.put("params", params)
 		println("LLAMADA LIBRERIA")
-		var play = client.log(playback)
-		println("return from lib: "+ play )
+		println("PLAY: "+playback)
+		var play = "" 
+		try {
+    		play = client.log(playback)
+    		println("return de libreria : "+ play )
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		} 
 
 		return play
 	}
@@ -150,10 +158,16 @@ class VOD(client : TvMetrixClient) extends ISession{
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
     	updatePlayback.put("params", updateParams)
-
-    	var update = client.log(updatePlayback)
-    	println("return de libreria : "+ update )
-
+    	println("UPDATE: "+updatePlayback)
+    	var update = ""
+    	try {
+    		update = client.log(updatePlayback)
+    		println("return de libreria : "+ update )
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		} finally {
+  			println("finally tras llamar a librería")
+  		}
 		return update
 	}
 
@@ -246,7 +260,6 @@ class VOD(client : TvMetrixClient) extends ISession{
 		
 		val random = scala.util.Random
 		this.playposition = random.nextInt(100000)
-		println("RANDOM: " + playposition)
 		return playposition
 	}
 

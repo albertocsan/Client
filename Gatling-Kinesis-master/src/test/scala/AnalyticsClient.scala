@@ -11,22 +11,29 @@ import java.util.HashMap
 
 
 
-class PutRecords extends Simulation{
+class AnalyticsClient extends Simulation{
 
   private val batchSize = Helpers.getEnvOrDefault("BatchSize", 20)
   private val testDuration = Helpers.getEnvOrDefault("TestDuration", 1)
   private val kinesisStreamName =  Helpers.getEnvOrDefault("kinesis-stream", "tvmetrix")
-
-  val workbench = new Workbench(kinesisStreamName)
-  val clientAction = new ClientActionBuilder(batchSize, workbench)
   
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).pause(2).exec(clientAction)
+  // VOD OR LIVE
+  val sessionType: String = "VOD"
+  // PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
+  val listActions: List[String] = List("PLAY","UPDATE")
 
+  val workbench = new Workbench(kinesisStreamName, sessionType, listActions)
+  val clientAction = new ClientActionBuilder(batchSize, workbench)
+ //Same number exec(clientAction) that length to listActions
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).pause(2).exec(clientAction)
+ 
+ //Number Users
+ val users = 1
 
  
   setUp(
     testScenario.inject(
-      atOnceUsers(1)
+      atOnceUsers(users)
     )
   )
 }

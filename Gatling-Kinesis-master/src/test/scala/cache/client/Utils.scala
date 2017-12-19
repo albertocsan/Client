@@ -93,6 +93,9 @@ class Utils  {
 		implicit val formats = DefaultFormats
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
 		val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
+		//val cosa = (jsonDevices\"devices")
+		//println("CLASEE: " +(cosa))
+		//println("NUMERO DE Device: " + (jsonDevices\"devices"))
 		return device
 	}
 

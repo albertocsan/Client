@@ -13,37 +13,35 @@ import tvmetrix.client.java._
 import java.util.HashMap
 
 
-class Device(kinesisStream: String) extends Protocol {
-    val utils =  new Utils()
-    val deviceInfo = utils.getDevice()
+class Device(kinesisStream: String, sessionType: String, listActions: List[String]) extends Protocol {
+  val utils =  new Utils()
+  val deviceInfo = utils.getDevice()
 
   val kinesisClient = new AmazonKinesisClient()
   var region = Regions.US_EAST_1
   kinesisClient.setRegion(Region.getRegion(region))
   checkIsAuthorised(kinesisClient)
   val client  = TvMetrix.create(msgDeviceInfo())
-  val listSession : List[String] = List("START","LIVE")//leer de fichero de configuracion
-  var indexSession : Int = 0
-
-
+  var index = 0 
+  val vod = new VOD(client, listActions)
+  val live = new LIVE(client, listActions)
+   
   
   def execute() = {
     var sentToKinesis = ""
-    var sessionType = listSession(indexSession)
-    println("indexSession: " + indexSession)
-    if (sessionType == "START") {
+
+    if (index == 0) {
       sentToKinesis = buildStart()
-    } else if (sessionType == "VOD") {
-      val vod = new VOD(client)
-      sentToKinesis = vod.executeNextAction(deviceInfo.resolution)
-    } else if (sessionType == "LIVE"){
-      val live = new LIVE(client)
-      sentToKinesis = live.executeNextAction(deviceInfo.resolution)
-    } else {
-      sentToKinesis = "Session Error"
+      this.index = 1
     }
-      
-    this.indexSession +=1
+
+    if (sessionType == "VOD") {
+      sentToKinesis = vod.executeNextAction(deviceInfo.resolution)
+    }
+
+    if (sessionType == "LIVE"){
+      sentToKinesis = live.executeNextAction(deviceInfo.resolution)
+    }
 
     println("sentToKinesis: " + sentToKinesis)
     //  <---- KINESIS ---->
@@ -72,6 +70,7 @@ class Device(kinesisStream: String) extends Protocol {
     configLib.put("appName", "app")
     configLib.put("appVersion", "app-1.0.0")
     configLib.put("device", device)
+    configLib.put("keepalive",new Integer(2))
 
     configLib.put("timeFn", new TvMetrixTimeProvider() {
       def getCurrentTime() : Long = {

@@ -7,12 +7,11 @@ import org.json._
 
 import java.util.ArrayList
 import java.time.Instant
-class LIVE(client : TvMetrixClient) extends ISession{
+class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	
 	val utils =  new Utils()	
  	var indexAction = 0
- 	val listActions : List[String] = List("PLAY","UPDATE") //leer de fichero de configuracion
- 
+ 	
  	val liveContent  = utils.getLive()
  	val trackContent = utils.getTrack()
  	val profileContent = utils.getProfile()
@@ -113,9 +112,9 @@ class LIVE(client : TvMetrixClient) extends ISession{
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
     	updatePlayback.put("params", updateParams)
-
+		println("UPDATE: "+updatePlayback)
     	var update = client.log(updatePlayback)
-    	println("return de libreria : "+ update )
+    	println("return de libreria : "+ client.log(updatePlayback) )
 
 		return update
 	}
