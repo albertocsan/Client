@@ -1,21 +1,18 @@
 # Client
 
-ToDo List:
-============
-
-
-
 Requirement
 =========================
-1. SBT : Version 1.0.3
-2. AWS_CLI 
-3. SCALA: Version 2.11.8
-4. Gatling Plugin SBT: Version 2.2.2
+1. SBT : Version 1.0.3 (Gatling-Kinesis-master/project/build.properties)
+2. AWS_CLI (Gatling-Kinesis-master/build.sbt) // The credentials used will be those marked in the default profile
+3. SCALA: Version 2.11.8 (Gatling-Kinesis-master/build.sbt)
+4. Gatling Plugin SBT: Version 2.2.2 (Gatling-Kinesis-master/project/plugins.sbt)
+5. tvmetrix-client-0.1.17-standalone.jar (Gatling-Kinesis-master/lib)
+6. json-20171018.jar (Gatling-Kinesis-master/lib)
 
 
 File Config
 ---------
-AnalyticsClient.scala
+AnalyticsClient.scala (Gatling-Kinesis-master/src/test/scala) 
 
 	- sessionType: VOD or LIVE	
 	- listActions: PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP	
@@ -30,14 +27,7 @@ Start SBT
 $ sbt
 ```
 
-Run all simulations
--------------------
-
-```bash
-> gatling:test
-```
-
-Run a single simulation
+Run a simulation
 -----------------------
 
 ```bash
