@@ -7,8 +7,23 @@
       },
       "channel": {
         "serviceId": "97007",
-        "channelName": "ALBERTO PROBANDO",
+        "channelName": "Channel 1",
         "channelNumber": "116"
+      },
+      "delivery": {
+        "deliveryContext": "TV",
+        "serviceId": "97007"
+      }
+    },
+    {
+      "content": {
+        "contentId": "STND2374203619006838",
+        "title": "The Wiz Live! 2"
+      },
+      "channel": {
+        "serviceId": "97007",
+        "channelName": "Channel 2",
+        "channelNumber": "117"
       },
       "delivery": {
         "deliveryContext": "TV",

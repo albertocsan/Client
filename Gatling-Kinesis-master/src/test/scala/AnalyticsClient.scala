@@ -18,14 +18,14 @@ class AnalyticsClient extends Simulation{
   private val kinesisStreamName =  Helpers.getEnvOrDefault("kinesis-stream", "tvmetrix")
   
   // VOD OR LIVE
-  val sessionType: String = "VOD"
+  val sessionType: String = "LIVE"
   // PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
-  val listActions: List[String] = List("PLAY","UPDATE")
+  val listActions: List[String] = List("PLAY","UPDATECONNECTION","UPDATE")
 
   val workbench = new Workbench(kinesisStreamName, sessionType, listActions)
   val clientAction = new ClientActionBuilder(batchSize, workbench)
  //Same number exec(clientAction) that length to listActions
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).pause(2).exec(clientAction)
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).exec(clientAction).pause(2).exec(clientAction)
  
  //Number Users
  val users = 1

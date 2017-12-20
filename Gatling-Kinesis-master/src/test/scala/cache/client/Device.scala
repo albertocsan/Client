@@ -43,15 +43,19 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       sentToKinesis = live.executeNextAction(deviceInfo.resolution)
     }
 
-    println("sentToKinesis: " + sentToKinesis)
+    
     //  <---- KINESIS ---->
-    val request = new PutRecordRequest()
-    request.setStreamName(kinesisStream)
-    val jsonPayload = serialNumberGenerator(sentToKinesis)
-    request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
-    request.setPartitionKey(util.Random.nextInt(10000).toString)
-    kinesisClient.putRecord(request) 
-    println("KINESIS SUBIDO")   
+    if (sentToKinesis != ""){
+      println("sentToKinesis: " + sentToKinesis)
+      val request = new PutRecordRequest()
+      request.setStreamName(kinesisStream)
+      val jsonPayload = serialNumberGenerator(sentToKinesis)
+      request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
+      request.setPartitionKey(util.Random.nextInt(10000).toString)
+      kinesisClient.putRecord(request) 
+      println("KINESIS SUBIDO")  
+    }
+    
 
   }
 

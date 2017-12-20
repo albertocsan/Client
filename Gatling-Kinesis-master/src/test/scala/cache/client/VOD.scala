@@ -29,10 +29,10 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
  		action match {
  			case "PLAY"   		    =>  jsonToKinesis = buildPlay(resolution)
  		    case "UPDATE"			=>  jsonToKinesis = buildUpdatePlayback()
-	    	case "UPDATECODEC" 		=>  jsonToKinesis = buildUpdateCodec()
-    		case "UPDATEPROFILE" 	=>  jsonToKinesis = buildUpdateProfile()
-			case "UPDATEBANDWIDTH" 	=>  jsonToKinesis = buildUpdateBandwidth()
-			case "UPDATECONNECTION" =>  jsonToKinesis = buildUpdateConnection()
+	    	case "UPDATECODEC" 		=>  buildUpdateCodec()
+    		case "UPDATEPROFILE" 	=>  buildUpdateProfile()
+			case "UPDATEBANDWIDTH" 	=>  buildUpdateBandwidth()
+			case "UPDATECONNECTION" =>  buildUpdateConnection()
  		   	case "STOP"	  			=>  jsonToKinesis = buildStop()
  			case _        			=>  jsonToKinesis = "ERROR"
  		}
@@ -165,13 +165,12 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
     		println("return de libreria : "+ update )
     	} catch {
     		case e: Exception => e.printStackTrace
-  		} finally {
-  			println("finally tras llamar a librería")
   		}
+
 		return update
 	}
 
-	def buildUpdateCodec() :  String = {
+	def buildUpdateCodec() = {
 		/*var renderedResolution = new ArrayList[String]()		
 		for (i <- 0 until (vodContent.content.genres).length){
 			renderedResolution.add(vodContent.content.genres(i))
@@ -187,14 +186,15 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
    		val updateCodec : HashMap[String, Object] = new HashMap[String, Object]
     	updateCodec.put("action", "update-codec-quality")
     	updateCodec.put("params", updateParams)
-
-    	var update = client.log(updateCodec)
-    	println("return de libreria : "+ update )
-
-		return update
+ 	
+    	try {
+    		client.log(updateCodec)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
 	}
 
-	def buildUpdateProfile() :  String = {
+	def buildUpdateProfile() = {
 		/*var resolution = new ArrayList[String]()		
 		for (i <- 0 until (vodContent.content.genres).length){
 			resolution.add(vodContent.content.genres(i))
@@ -207,28 +207,30 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
    		val updateProfile : HashMap[String, Object] = new HashMap[String, Object]
     	updateProfile.put("action", "update-profile")
     	updateProfile.put("params", updateParams)
-
-    	var update = client.log(updateProfile)
-    	println("return de libreria : "+ update )
-
-		return update
+    	
+    	try {
+    		client.log(updateProfile)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
 	}
 
-	def buildUpdateBandwidth() :  String = {
+	def buildUpdateBandwidth()  = {
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bandwidBandwidth",new Integer (1))
+    	updateParams.put("bandwidth",new Integer (1))
 
    		val updateBandwidth : HashMap[String, Object] = new HashMap[String, Object]
     	updateBandwidth.put("action", "update-bandwidth")
     	updateBandwidth.put("params", updateParams)
 
-    	var update = client.log(updateBandwidth)
-    	println("return de libreria : "+ update )
+		try {
+    		client.log(updateBandwidth)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
+    }
 
-		return update
-	}
-
-	def buildUpdateConnection() :  String = {
+	def buildUpdateConnection()  = {
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
     	updateParams.put("connectionType", "Eth")
 
@@ -236,11 +238,12 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
     	updateConnection.put("action", "update-connection-type")
     	updateConnection.put("params", updateParams)
 
-    	var update = client.log(updateConnection)
-    	println("return de libreria : "+ update )
-
-		return update
-	}
+    	try {
+    		client.log(updateConnection)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
+    }
 
 	def buildStop() :  String = {
 		val stopParams : HashMap[String, Object] = new HashMap[String, Object]

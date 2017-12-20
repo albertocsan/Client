@@ -13,6 +13,16 @@ Requirement
 4. Gatling Plugin SBT: Version 2.2.2
 
 
+File Config
+---------
+AnalyticsClient.scala
+	- sessionType: VOD or LIVE
+	- listActions: PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
+	- users: Number of threads
+	- testScenario: Same number of  'exec(clientAction)' that length listActions/ value of pause same that keepalive
+	- Kekeepaliveep: Seconds to ALIVE event
+
+
 Start SBT
 ---------
 
@@ -31,11 +41,6 @@ Run a single simulation
 -----------------------
 
 ```bash
-> gatling:testOnly PutRecordsInKinesisStream 
-<<<<<<< HEAD
-```
-=======
+> gatling:testOnly AnalyticsClient 
 ```
 
-
->>>>>>> 04dabebab068b6f30d61ed7eb90b4ab2bc08e3cf

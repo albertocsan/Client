@@ -15,6 +15,22 @@
       "delivery": {
         "deliveryContext": "VOD"
       }
+    },
+    {
+      "content": {
+        "contentId": "STND2374203619006838",
+        "title": "GeorgeDeLaSelva 2"
+      },
+      "product": {
+        "price": 1,
+        "productId": "PROD9860312645007022",
+        "productName": "HD",
+        "system": "CMS",
+        "commercialType": "SVOD"
+      },
+      "delivery": {
+        "deliveryContext": "VOD"
+      }
     }
   ]
 }

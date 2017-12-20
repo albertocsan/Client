@@ -9,14 +9,8 @@ import net.liftweb.json.DefaultFormats
 import net.liftweb.json._
 
 class Utils  {
-	/*val random = scala.util.Random
-		this.playposition = random.nextInt*/
-	val indexDevice = 0 
-	val indexProduct = 0 
-	val indexLive = 0
-	val indexTrack = 0
-	val indexProfile = 0 
-
+	val random = scala.util.Random
+		
 	case class Device (
 		`class`: String,
 		platform: String,
@@ -91,6 +85,8 @@ class Utils  {
 	def getDevice() : Device = {
 
 		implicit val formats = DefaultFormats
+		var indexDevice = 0 
+		indexDevice = random.nextInt(1)
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
 		val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
 		//val cosa = (jsonDevices\"devices")
@@ -102,6 +98,8 @@ class Utils  {
 	def getVod(): VOD = {
 
 		implicit val formats = DefaultFormats
+		var indexProduct = 0 
+		indexProduct = random.nextInt(1)
 		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
 		val vodContent  = (jsonVod\"products")(indexProduct).extract[VOD]
 		
@@ -111,6 +109,8 @@ class Utils  {
 	def getLive(): Live = {
 
 		implicit val formats = DefaultFormats
+		var indexLive = 0 
+		indexLive = random.nextInt(1)
 		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
 		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
 		
@@ -120,6 +120,8 @@ class Utils  {
 	def getTrack(): Track = {
 
 		implicit val formats = DefaultFormats
+		var indexTrack = 0 
+		indexTrack = random.nextInt(1)
 		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
 		val trackContent  = (jsonTrack\"tracks")(indexTrack).extract[Track]
 		
@@ -129,6 +131,8 @@ class Utils  {
 	def getProfile(): Profile = {
 
 		implicit val formats = DefaultFormats
+		var indexProfile = 0 
+		indexProfile = random.nextInt(1)
 		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
 		val profileContent  = (jsonProfile\"profiles")(indexProfile).extract[Profile]
 		
