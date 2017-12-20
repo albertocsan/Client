@@ -16,12 +16,12 @@ Requirement
 File Config
 ---------
 AnalyticsClient.scala
-	- sessionType: VOD or LIVE
-	- listActions: PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
-	- users: Number of threads
+
+	- sessionType: VOD or LIVE	
+	- listActions: PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP	
+	- users: Number of threads	
 	- testScenario: Same number of  'exec(clientAction)' that length listActions/ value of pause same that keepalive
 	- Kekeepaliveep: Seconds to ALIVE event
-
 
 Start SBT
 ---------
