@@ -17,6 +17,34 @@
 		"model": "IphoneX",
 		"deviceId": "somedeviceid",
         "resolution":[1270, 720]
-	}
+	},
+    {
+        "class": "MOBILE",
+        "platform": "iOS",
+        "platformVersion": "11.0",
+        "make": "Apple, Inc.",
+        "model": "IphoneX",
+        "deviceId": "somedeviceid",
+        "resolution":[1270, 720]
+    },
+    {
+        "class": "MOBILE",
+        "platform": "iOS",
+        "platformVersion": "11.0",
+        "make": "Apple, Inc.",
+        "model": "IphoneX",
+        "deviceId": "somedeviceid",
+        "resolution":[1270, 720]
+    },
+    {
+        "class": "MOBILE",
+        "platform": "iOS",
+        "platformVersion": "11.0",
+        "make": "Apple, Inc.",
+        "model": "IphoneX",
+        "deviceId": "somedeviceid",
+        "resolution":[1270, 720]
+    }
+    
   ]
 }

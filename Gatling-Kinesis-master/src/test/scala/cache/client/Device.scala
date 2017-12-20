@@ -13,7 +13,7 @@ import tvmetrix.client.java._
 import java.util.HashMap
 
 
-class Device(kinesisStream: String, sessionType: String, listActions: List[String]) extends Protocol {
+class Device(kinesisStream: String, sessionType: String, listActions: List[String], keepalive: Int) extends Protocol {
   val utils =  new Utils()
   val deviceInfo = utils.getDevice()
 
@@ -21,7 +21,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   var region = Regions.US_EAST_1
   kinesisClient.setRegion(Region.getRegion(region))
   checkIsAuthorised(kinesisClient)
-  val client  = TvMetrix.create(msgDeviceInfo())
+  val client  = TvMetrix.create(msgDeviceInfo(keepalive))
   var index = 0 
   val vod = new VOD(client, listActions)
   val live = new LIVE(client, listActions)
@@ -60,7 +60,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   }
 
   //<---- GENERATE DEVICE ---->
-  def msgDeviceInfo() : HashMap[String,Object] = {
+  def msgDeviceInfo(keepalive: Int) : HashMap[String,Object] = {
    
     val device : HashMap[String, Object] = new HashMap[String, Object]
     device.put("class", deviceInfo.`class`)
@@ -74,7 +74,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     configLib.put("appName", "app")
     configLib.put("appVersion", "app-1.0.0")
     configLib.put("device", device)
-    configLib.put("keepalive",new Integer(2))
+    configLib.put("keepalive",new Integer(keepalive))
 
     configLib.put("timeFn", new TvMetrixTimeProvider() {
       def getCurrentTime() : Long = {

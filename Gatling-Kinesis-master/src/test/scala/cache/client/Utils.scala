@@ -86,12 +86,11 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexDevice = 0 
-		indexDevice = random.nextInt(1)
+		
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
-		val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
-		//val cosa = (jsonDevices\"devices")
-		//println("CLASEE: " +(cosa))
-		//println("NUMERO DE Device: " + (jsonDevices\"devices"))
+		var countDevices =  (((jsonDevices\"devices").children).size)-1
+      	indexDevice = random.nextInt(countDevices)
+     	val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
 		return device
 	}
 
@@ -101,6 +100,8 @@ class Utils  {
 		var indexProduct = 0 
 		indexProduct = random.nextInt(1)
 		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
+		var countProducts =  (((jsonVod\"products").children).size)-1
+      	indexProduct = random.nextInt(countProducts)
 		val vodContent  = (jsonVod\"products")(indexProduct).extract[VOD]
 		
 		return vodContent
@@ -112,6 +113,8 @@ class Utils  {
 		var indexLive = 0 
 		indexLive = random.nextInt(1)
 		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
+		var countLives =  (((jsonLive\"lives").children).size)-1
+      	indexLive = random.nextInt(countLives)
 		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
 		
 		return liveContent
@@ -123,6 +126,8 @@ class Utils  {
 		var indexTrack = 0 
 		indexTrack = random.nextInt(1)
 		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
+		var countTracks =  (((jsonTrack\"tracks").children).size)-1
+      	indexTrack = random.nextInt(countTracks)
 		val trackContent  = (jsonTrack\"tracks")(indexTrack).extract[Track]
 		
 		return trackContent
@@ -134,6 +139,8 @@ class Utils  {
 		var indexProfile = 0 
 		indexProfile = random.nextInt(1)
 		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
+		var countProfiles =  (((jsonProfile\"profiles").children).size)-1
+      	indexProfile = random.nextInt(countProfiles)
 		val profileContent  = (jsonProfile\"profiles")(indexProfile).extract[Profile]
 		
 		return profileContent
