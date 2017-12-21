@@ -54,7 +54,8 @@ class Utils  {
 	case class VOD (
 		content: Content,
 		product: Product,
-		delivery: DeliveryVod
+		delivery: DeliveryVod,
+		pageName: String
 	)
 
 	case class Channel (
@@ -86,9 +87,8 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexDevice = 0 
-		
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
-		var countDevices =  (((jsonDevices\"devices").children).size)-1
+		var countDevices =  ((jsonDevices\"devices").children).size
       	indexDevice = random.nextInt(countDevices)
      	val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
 		return device
@@ -98,9 +98,8 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexProduct = 0 
-		indexProduct = random.nextInt(1)
 		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
-		var countProducts =  (((jsonVod\"products").children).size)-1
+		var countProducts =  ((jsonVod\"products").children).size
       	indexProduct = random.nextInt(countProducts)
 		val vodContent  = (jsonVod\"products")(indexProduct).extract[VOD]
 		
@@ -111,9 +110,8 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexLive = 0 
-		indexLive = random.nextInt(1)
 		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
-		var countLives =  (((jsonLive\"lives").children).size)-1
+		var countLives =  ((jsonLive\"lives").children).size
       	indexLive = random.nextInt(countLives)
 		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
 		
@@ -124,9 +122,8 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexTrack = 0 
-		indexTrack = random.nextInt(1)
 		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
-		var countTracks =  (((jsonTrack\"tracks").children).size)-1
+		var countTracks =  ((jsonTrack\"tracks").children).size
       	indexTrack = random.nextInt(countTracks)
 		val trackContent  = (jsonTrack\"tracks")(indexTrack).extract[Track]
 		
@@ -137,9 +134,8 @@ class Utils  {
 
 		implicit val formats = DefaultFormats
 		var indexProfile = 0 
-		indexProfile = random.nextInt(1)
 		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
-		var countProfiles =  (((jsonProfile\"profiles").children).size)-1
+		var countProfiles =  ((jsonProfile\"profiles").children).size
       	indexProfile = random.nextInt(countProfiles)
 		val profileContent  = (jsonProfile\"profiles")(indexProfile).extract[Profile]
 		

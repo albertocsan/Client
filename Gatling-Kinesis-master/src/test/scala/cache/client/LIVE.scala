@@ -17,12 +17,12 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
  	val liveContent  = utils.getLive()
  	val trackContent = utils.getTrack()
  	val profileContent = utils.getProfile()
+ 	val random = scala.util.Random
 
 	def executeNextAction(resolution : List[Integer]): String ={
-		println("indexAction: " +indexAction)
-		println("this:"+this+", index:"+indexAction)
 		val action = listActions(indexAction)
-		println ("action " + action)
+		println ("ACTION " + action)
+		println("")
 
 		this.indexAction +=1
  		var jsonToKinesis = ""
@@ -34,7 +34,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 			case "UPDATEBANDWIDTH" 	=>  buildUpdateBandwidth()
 			case "UPDATECONNECTION" =>  buildUpdateConnection()
  		   	case "STOP"	  			=>  jsonToKinesis = buildStop()
- 			case _        			=>  jsonToKinesis = "ERROR"
+ 			case _        			=>  jsonToKinesis = ""
  		}
 		return jsonToKinesis
 	}
@@ -64,11 +64,11 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		}
 
 		val streamingQuality : HashMap[String, Object] = new HashMap[String, Object]
-		streamingQuality.put("bufferLengthTime", new Integer (1))
+		streamingQuality.put("bufferLengthTime", new Integer (random.nextInt(1000)))
 
 		var availableBitrates = new ArrayList[Int]()
-		availableBitrates.add(1)
-		availableBitrates.add(2)
+		availableBitrates.add(random.nextInt(1000))
+		availableBitrates.add(random.nextInt(1000))
 
 		val profile : HashMap[String, Object] = new HashMap[String, Object]
 		profile.put("bitrate", new Integer (profileContent.bitrate))
@@ -76,7 +76,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		profile.put("frameRate", new Integer (profileContent.frameRate))
 
 		val bandwidth : HashMap[String, Object] = new HashMap[String, Object]
-		bandwidth.put("bandwidth", new Integer(1))
+		bandwidth.put("bandwidth", new Integer(random.nextInt(1000)))
 
 		val streaming : HashMap[String, Object] = new HashMap[String, Object]
 		streaming.put("availableBitrates", availableBitrates)
@@ -84,11 +84,11 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		streaming.put("currentBandwidth",bandwidth)
 
 		val vst : HashMap[String, Object] = new HashMap[String, Object]
-		vst.put("totalTime", new Integer (1))
-		vst.put("ottProvisionTime", new Integer (2))
-		vst.put("deeplinkTime", new Integer (3))
-		vst.put("drmSetupTime", new Integer (4))
-		vst.put("authoringTime", new Integer (5))
+		vst.put("totalTime", new Integer (random.nextInt(1000)))
+		vst.put("ottProvisionTime", new Integer (random.nextInt(1000)))
+		vst.put("deeplinkTime", new Integer (random.nextInt(1000)))
+		vst.put("drmSetupTime", new Integer (random.nextInt(1000)))
+		vst.put("authoringTime", new Integer (random.nextInt(1000)))
 
 
 		val params : HashMap[String, Object] = new HashMap[String, Object]
@@ -107,7 +107,6 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		var play = "" 
 		try {
     		play = client.log(playback)
-    		println("return de libreria : "+ play )
     	} catch {
     		case e: Exception => e.printStackTrace
   		}
@@ -120,14 +119,11 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
-    	updatePlayback.put("params", updateParams)
-		println("UPDATE: "+updatePlayback)
-    	
+    	updatePlayback.put("params", updateParams)    	
 
     	var update = "" 
 		try {
     		update = client.log(updatePlayback)
-    		println("return de libreria : "+ update )
     	} catch {
     		case e: Exception => e.printStackTrace
   		} 
@@ -143,11 +139,11 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		}*/
 
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("renderedFrameRate", new Integer (1))
+    	updateParams.put("renderedFrameRate", new Integer (random.nextInt(1000)))
     	//updateParams.put("renderedResolution", renderedResolution)
-    	updateParams.put("renderedFrames", new Integer (1))
-    	updateParams.put("decodedFrames", new Integer (1))
-    	updateParams.put("droppedFrames", new Integer (1))
+    	updateParams.put("renderedFrames", new Integer (random.nextInt(1000)))
+    	updateParams.put("decodedFrames", new Integer (random.nextInt(1000)))
+    	updateParams.put("droppedFrames", new Integer (random.nextInt(1000)))
 
    		val updateCodec : HashMap[String, Object] = new HashMap[String, Object]
     	updateCodec.put("action", "update-codec-quality")
@@ -166,9 +162,9 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 			resolution.add(vodContent.content.genres(i))
 		}*/
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bitrate", new Integer (1))
+    	updateParams.put("bitrate", new Integer (random.nextInt(1000)))
     	//updateParams.put("resolution", resolution)
-    	updateParams.put("frameRate", new Integer (1))
+    	updateParams.put("frameRate", new Integer (random.nextInt(1000)))
 
    		val updateProfile : HashMap[String, Object] = new HashMap[String, Object]
     	updateProfile.put("action", "update-profile")
@@ -183,7 +179,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	def buildUpdateBandwidth()  = {
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bandwidth",new Integer (1))
+    	updateParams.put("bandwidth",new Integer (random.nextInt(1000)))
 
    		val updateBandwidth : HashMap[String, Object] = new HashMap[String, Object]
     	updateBandwidth.put("action", "update-bandwidth")
@@ -198,7 +194,8 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	def buildUpdateConnection()  = {
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("connectionType", "Eth")
+		val listConnectionType : List[String] = List("Eth","CM","Wifi","Mobile","Other")
+		updateParams.put("connectionType", listConnectionType(random.nextInt(listConnectionType.length)))
 
    		val updateConnection : HashMap[String, Object] = new HashMap[String, Object]
     	updateConnection.put("action", "update-connection-type")

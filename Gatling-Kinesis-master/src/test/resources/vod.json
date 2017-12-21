@@ -14,7 +14,8 @@
       },
       "delivery": {
         "deliveryContext": "VOD"
-      }
+      },
+      "pageName": "Kids Home|George De La Selva"
     },
     {
       "content": {
@@ -30,7 +31,8 @@
       },
       "delivery": {
         "deliveryContext": "VOD"
-      }
+      },
+      "pageName": "Kids Home|George De La Selva 2"
     }
   ]
 }

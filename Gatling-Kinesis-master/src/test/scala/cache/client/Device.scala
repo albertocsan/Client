@@ -46,7 +46,8 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     
     //  <---- KINESIS ---->
     if (sentToKinesis != ""){
-      println("sentToKinesis: " + sentToKinesis)
+      println("SENT TO KINESIS: " + sentToKinesis)
+      println("")
       val request = new PutRecordRequest()
       request.setStreamName(kinesisStream)
       val jsonPayload = serialNumberGenerator(sentToKinesis)
@@ -101,7 +102,6 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     sessionAction.put("params", sessionParams)
 
     var start = client.log(sessionAction)
-    println("return de libreria : "+ start )
     return start
   }
 
