@@ -20,7 +20,7 @@ class AnalyticsClient extends Simulation{
   // VOD OR LIVE
   val sessionType: String = "VOD"
   // PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
-  val listActions: List[String] = List("PLAY","UPDATECONNECTION")
+  val listActions: List[String] = List("PLAY","UPDATE")
   //Number Users
   val users = 1
  
@@ -30,8 +30,7 @@ class AnalyticsClient extends Simulation{
   val workbench = new Workbench(kinesisStreamName, sessionType, listActions, keepalive)
   val clientAction = new ClientActionBuilder(batchSize, workbench)
   //Same number exec(clientAction) that length to listActions
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).exec(clientAction)
- 
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).pause(2).exec(clientAction)
 
 
  

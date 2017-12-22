@@ -40,7 +40,8 @@ class Utils  {
 		//deliveryId: String,
 		//audioLanguages: List[String],
 		//audioFormats: List[String],
-		deliveryContext: String
+		deliveryContext: String,
+		provider: String
 	)
 
 	case class DeliveryLive (

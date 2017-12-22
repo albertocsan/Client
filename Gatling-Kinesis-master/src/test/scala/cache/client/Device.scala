@@ -94,14 +94,27 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   // <---- START SESSION ---->
   private def buildStart() :  String = {
 
+    val subscriber : HashMap[String, Object] = new HashMap[String, Object]
+    subscriber.put("subscriberId", "7500")
+    subscriber.put("region", "SPA")
+    subscriber.put("zipcode", "28400")
+
     val sessionParams : HashMap[String, Object] = new HashMap[String, Object]
     sessionParams.put("language", "SPA")
+    sessionParams.put("subscriber", subscriber)
 
     val sessionAction : HashMap[String, Object] = new HashMap[String, Object]
     sessionAction.put("action", "new-session")
     sessionAction.put("params", sessionParams)
 
-    var start = client.log(sessionAction)
+    var start = "" 
+    try {
+        start = client.log(sessionAction)
+        println("STAR " + start)
+      } catch {
+        case e: Exception => e.printStackTrace
+      } 
+
     return start
   }
 

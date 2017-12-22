@@ -79,6 +79,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		delivery.put("audioLanguages",audioLanguages)
 		delivery.put("audioFormats",audioFormats)*/
 		delivery.put("deliveryContext", vodContent.delivery.deliveryContext)
+		delivery.put("provider", vodContent.delivery.provider)
 
 		/*val subscription : HashMap[String, Object] = new HashMap[String, Object]
 		subscription.put("subscriptionPackageId", "1297969")
@@ -156,7 +157,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
     	updatePlayback.put("params", updateParams)
-    	
+
     	var update = ""
     	try {
     		update = client.log(updatePlayback)

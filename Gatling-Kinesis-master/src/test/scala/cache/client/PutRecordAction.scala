@@ -11,8 +11,8 @@ class PutRecordAction(protocol: Workbench, val next: Action, statsEngine: StatsE
 
   override def execute(session: Session): Unit = {
     val start = TimeHelper.nowMillis
-    println("SESSION USER ID:"+session.userId)
-    println("")
+    //println("SESSION USER ID:"+session.userId)
+    //println("")
     protocol.execute(eventCount, session.userId)
     val end = TimeHelper.nowMillis
 

@@ -13,7 +13,8 @@
         "commercialType": "SVOD"
       },
       "delivery": {
-        "deliveryContext": "VOD"
+        "deliveryContext": "VOD",
+        "provider": "FoxPlay"
       },
       "pageName": "Kids Home|George De La Selva"
     },
@@ -30,7 +31,8 @@
         "commercialType": "SVOD"
       },
       "delivery": {
-        "deliveryContext": "VOD"
+        "deliveryContext": "VOD",
+        "provider": "FoxPlay"
       },
       "pageName": "Kids Home|George De La Selva 2"
     }
