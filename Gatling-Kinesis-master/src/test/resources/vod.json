@@ -14,7 +14,8 @@
       },
       "delivery": {
         "deliveryContext": "VOD",
-        "provider": "FoxPlay"
+        "provider": "FoxPlay",
+        "audioLanguages": ["QAA", "SPA"]
       },
       "pageName": "Kids Home|George De La Selva"
     },
@@ -32,7 +33,8 @@
       },
       "delivery": {
         "deliveryContext": "VOD",
-        "provider": "FoxPlay"
+        "provider": "FoxPlay",
+        "audioLanguages": ["QAA", "SPA"]
       },
       "pageName": "Kids Home|George De La Selva 2"
     }

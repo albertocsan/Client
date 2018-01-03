@@ -46,11 +46,11 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 			genres.add(vodContent.content.genres(i))
 		}*/
 
-		/*var audioLanguages = new ArrayList[String]()
+		var audioLanguages = new ArrayList[String]()
 		for (i <- 0 until (vodContent.delivery.audioLanguages).length){
 			audioLanguages.add(vodContent.delivery.audioLanguages(i))
 		}
-
+		/*
 		var audioFormats = new ArrayList[String]()
 		for (i <- 0 until (vodContent.delivery.audioFormats).length){
 			audioFormats.add(vodContent.delivery.audioFormats(i))
@@ -76,7 +76,9 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val delivery : HashMap[String, Object] = new HashMap[String, Object]
 		/*delivery.put("deliveryId", vodContent.delivery.deliveryId)
+		*/
 		delivery.put("audioLanguages",audioLanguages)
+		/*
 		delivery.put("audioFormats",audioFormats)*/
 		delivery.put("deliveryContext", vodContent.delivery.deliveryContext)
 		delivery.put("provider", vodContent.delivery.provider)

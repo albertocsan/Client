@@ -38,7 +38,7 @@ class Utils  {
 
 	case class DeliveryVod (
 		//deliveryId: String,
-		//audioLanguages: List[String],
+		audioLanguages: List[String],
 		//audioFormats: List[String],
 		deliveryContext: String,
 		provider: String

@@ -54,7 +54,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
       request.setPartitionKey(util.Random.nextInt(10000).toString)
       kinesisClient.putRecord(request) 
-      println("KINESIS SUBIDO")  
+      println("KINESIS OK")  
     }
     
 
@@ -110,7 +110,8 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     var start = "" 
     try {
         start = client.log(sessionAction)
-        println("STAR " + start)
+        println("ACTION START " + start)
+        println("")
       } catch {
         case e: Exception => e.printStackTrace
       } 
