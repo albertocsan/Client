@@ -54,9 +54,11 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
       request.setPartitionKey(util.Random.nextInt(10000).toString)
       kinesisClient.putRecord(request) 
-      println("KINESIS OK")  
+      println("KINESIS OK")
+ 
     }
     
+
 
   }
 

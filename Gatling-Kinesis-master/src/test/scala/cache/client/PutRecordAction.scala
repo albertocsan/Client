@@ -7,13 +7,13 @@ import io.gatling.core.session.Session
 import io.gatling.core.stats.StatsEngine
 import io.gatling.core.stats.message.ResponseTimings
 
-class PutRecordAction(protocol: Workbench, val next: Action, statsEngine: StatsEngine, eventCount : Int) extends ActionActor {
+class PutRecordAction(protocol: Workbench, val next: Action, statsEngine: StatsEngine) extends ActionActor {
 
   override def execute(session: Session): Unit = {
     val start = TimeHelper.nowMillis
     //println("SESSION USER ID:"+session.userId)
     //println("")
-    protocol.execute(eventCount, session.userId)
+    protocol.execute(session.userId, protocol)
     val end = TimeHelper.nowMillis
 
     val timings = ResponseTimings(start, end)

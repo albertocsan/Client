@@ -255,7 +255,6 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
     	stopPlayback.put("params", stopParams)
 
     	var stop = client.log(stopPlayback)
-    	println("return de libreria : "+ stop )
 
 		return stop
 	}

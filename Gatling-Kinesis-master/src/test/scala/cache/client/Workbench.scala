@@ -4,7 +4,7 @@ import java.util.HashMap
 
 class Workbench(kinesisStream: String, sessionType: String, listActions: List[String], keepalive: Int) {
   val devices : HashMap[Long, Device] = new HashMap[Long, Device]
-  def execute(data_blob_count : Int, device_id : Long){    
+  def execute(device_id : Long){    
     
     var device : Device = devices.get(device_id);
 
