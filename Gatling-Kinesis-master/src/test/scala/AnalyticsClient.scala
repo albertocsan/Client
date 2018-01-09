@@ -20,7 +20,7 @@ class AnalyticsClient extends Simulation{
   // PLAY - UPDATE - UPDATECODEC - UPDATEPROFILE - UPDATEBANDWIDTH - UPDATECONNECTION - STOP
   val listActions: List[String] = List("PLAY","UPDATECONNECTION","STOP")
   //Number Users at once
-  val users = 100
+  val users = 1
 
   //Number max Users
   val maxUsers =  200
@@ -38,16 +38,16 @@ class AnalyticsClient extends Simulation{
 
 
  //Operational
- /* setUp(
+  setUp(
     testScenario.inject(
       atOnceUsers(users)
     )
-  )*/
+  )
  //Carga
-  setUp(
+/*  setUp(
         testScenario.inject(
                 rampUsers(maxUsers) over (rampUpTime seconds),
                 rampUsers(maxUsers * runTime) over (runTime minutes)
         )
-)
+)*/
 }

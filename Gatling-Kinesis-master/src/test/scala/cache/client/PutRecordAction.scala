@@ -13,7 +13,7 @@ class PutRecordAction(protocol: Workbench, val next: Action, statsEngine: StatsE
     val start = TimeHelper.nowMillis
     //println("SESSION USER ID:"+session.userId)
     //println("")
-    protocol.execute(session.userId, protocol)
+    protocol.execute(session.userId)
     val end = TimeHelper.nowMillis
 
     val timings = ResponseTimings(start, end)
