@@ -2,7 +2,7 @@ package cache.client
 
 import java.util.HashMap
 
-class Workbench(kinesisStream: String, sessionType: String, listActions: List[String], keepalive: Int) {
+class Workbench(kinesisStream: String, sessionType: String, listActions: List[String]) {
   val devices : HashMap[Long, Device] = new HashMap[Long, Device]
   def execute(device_id : Long){    
     
@@ -11,7 +11,7 @@ class Workbench(kinesisStream: String, sessionType: String, listActions: List[St
     if (device != null){
       device = devices.get(device_id)
     } else {
-      device = new Device(kinesisStream, sessionType, listActions, keepalive)
+      device = new Device(kinesisStream, sessionType, listActions)
       devices.put(device_id, device)
     }
     device.execute()

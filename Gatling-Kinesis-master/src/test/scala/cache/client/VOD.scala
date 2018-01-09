@@ -27,7 +27,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		this.indexAction +=1
  		var jsonToKinesis = ""
  		action match {
- 			case "PLAY"   		    =>  jsonToKinesis = buildPlay(resolution)
+ 			case "PLAY"   		    =>  jsonToKinesis = buildPlay()
  		    case "UPDATE"			=>  jsonToKinesis = buildUpdatePlayback()
 	    	case "UPDATECODEC" 		=>  buildUpdateCodec()
     		case "UPDATEPROFILE" 	=>  buildUpdateProfile()
@@ -39,7 +39,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		return jsonToKinesis
 	}
 
-	def buildPlay(resolution :java.util.List[Integer]) :  String = {
+	def buildPlay() :  String = {
 
 		/*var genres = new ArrayList[String]()		
 		for (i <- 0 until (vodContent.content.genres).length){
@@ -102,18 +102,10 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		availableBitrates.add(random.nextInt(1000))
 		availableBitrates.add(random.nextInt(1000))
 
-		val profile : HashMap[String, Object] = new HashMap[String, Object]
-		profile.put("bitrate", new Integer (profileContent.bitrate))
-		profile.put("resolution", resolution)
-		profile.put("frameRate", new Integer (profileContent.frameRate))
-
-		val bandwidth : HashMap[String, Object] = new HashMap[String, Object]
-		bandwidth.put("bandwidth", new Integer(random.nextInt(1000)))
 
 		val streaming : HashMap[String, Object] = new HashMap[String, Object]
 		streaming.put("availableBitrates", availableBitrates)
-		streaming.put("currentProfile", profile)
-		streaming.put("currentBandwidth",bandwidth)
+		
 
 		val vst : HashMap[String, Object] = new HashMap[String, Object]
 		vst.put("totalTime", new Integer (random.nextInt(1000)))
@@ -153,9 +145,11 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdatePlayback() :  String = {
+
+		
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
     	updateParams.put("playposition", new Integer(generatePlayposition()))
-
+    	
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
     	updatePlayback.put("params", updateParams)
@@ -195,14 +189,17 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdateProfile() = {
-		/*var resolution = new ArrayList[String]()		
-		for (i <- 0 until (vodContent.content.genres).length){
-			resolution.add(vodContent.content.genres(i))
-		}*/
+
+		var resolution = new ArrayList[Int]()		
+		for (i <- 0 until (profileContent.resolution).length){
+			resolution.add(profileContent.resolution(i))
+		}
+
+
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bitrate", new Integer (random.nextInt(1000)))
-    	//updateParams.put("resolution", resolution)
-    	updateParams.put("frameRate", new Integer (random.nextInt(1000)))
+    	updateParams.put("bitrate", new Integer (profileContent.bitrate))
+    	updateParams.put("resolution", resolution)
+    	updateParams.put("frameRate", new Integer (profileContent.frameRate))
 
    		val updateProfile : HashMap[String, Object] = new HashMap[String, Object]
     	updateProfile.put("action", "update-profile")
@@ -216,6 +213,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdateBandwidth()  = {
+
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
     	updateParams.put("bandwidth",new Integer (random.nextInt(1000)))
 

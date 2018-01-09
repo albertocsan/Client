@@ -13,7 +13,7 @@ import tvmetrix.client.java._
 import java.util.HashMap
 
 
-class Device(kinesisStream: String, sessionType: String, listActions: List[String], keepalive: Int) extends Protocol {
+class Device(kinesisStream: String, sessionType: String, listActions: List[String]) extends Protocol {
   val utils =  new Utils()
   val deviceInfo = utils.getDevice()
 
@@ -21,7 +21,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   var region = Regions.US_EAST_1
   kinesisClient.setRegion(Region.getRegion(region))
   checkIsAuthorised(kinesisClient)
-  val client  = TvMetrix.create(msgDeviceInfo(keepalive))
+  val client  = TvMetrix.create(msgDeviceInfo())
   var index = 0 
   val vod = new VOD(client, listActions)
   val live = new LIVE(client, listActions)
@@ -63,7 +63,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   }
 
   //<---- GENERATE DEVICE ---->
-  def msgDeviceInfo(keepalive: Int) : HashMap[String,Object] = {
+  def msgDeviceInfo() : HashMap[String,Object] = {
    
     val device : HashMap[String, Object] = new HashMap[String, Object]
     device.put("class", deviceInfo.`class`)
@@ -77,7 +77,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     configLib.put("appName", "app")
     configLib.put("appVersion", "app-1.0.0")
     configLib.put("device", device)
-    configLib.put("keepalive",new Integer(keepalive))
+   
 
     configLib.put("timeFn", new TvMetrixTimeProvider() {
       def getCurrentTime() : Long = {
@@ -85,9 +85,17 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
         return now
       } 
     })
-    configLib.put("putFn", new TvMetrixEventSink() {
+    /*configLib.put("putFn", new TvMetrixEventSink() {
       def put(action:Object , data:String ) {
       }
+    })*/
+    configLib.put("timeFn", new TvMetrixTimeProvider() {
+      var now:Long = System.currentTimeMillis()
+      def getCurrentTime() : Long = {
+        var t:Long = now
+        this.now = this.now + 5*60000;
+        return t
+      } 
     })
 
     return configLib
