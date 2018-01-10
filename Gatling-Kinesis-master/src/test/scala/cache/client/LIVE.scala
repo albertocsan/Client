@@ -157,19 +157,22 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdateProfile() = {
-		/*var resolution = new ArrayList[String]()		
-		for (i <- 0 until (vodContent.content.genres).length){
-			resolution.add(vodContent.content.genres(i))
-		}*/
+
+		var resolution = new ArrayList[Int]()		
+		for (i <- 0 until (profileContent.resolution).length){
+			resolution.add(profileContent.resolution(i))
+		}
+
+
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bitrate", new Integer (random.nextInt(1000)))
-    	//updateParams.put("resolution", resolution)
-    	updateParams.put("frameRate", new Integer (random.nextInt(1000)))
+    	updateParams.put("bitrate", new Integer (profileContent.bitrate))
+    	updateParams.put("resolution", resolution)
+    	updateParams.put("frameRate", new Integer (profileContent.frameRate))
 
    		val updateProfile : HashMap[String, Object] = new HashMap[String, Object]
     	updateProfile.put("action", "update-profile")
     	updateProfile.put("params", updateParams)
-
+    	
     	try {
     		client.log(updateProfile)
     	} catch {
