@@ -80,7 +80,7 @@ class Utils  {
 	
 	case class Profile(
 		bitrate: Integer,
-		resolution: List[Integer],
+		resolution: String,
 		frameRate: Integer
 	)
 

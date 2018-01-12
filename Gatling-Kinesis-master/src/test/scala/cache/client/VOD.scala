@@ -27,14 +27,11 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		this.indexAction +=1
  		var jsonToKinesis = ""
  		action match {
- 			case "PLAY"   		    =>  jsonToKinesis = buildPlay()
- 		    case "UPDATE"			=>  jsonToKinesis = buildUpdatePlayback()
-	    	case "UPDATECODEC" 		=>  buildUpdateCodec()
-    		case "UPDATEPROFILE" 	=>  buildUpdateProfile()
-			case "UPDATEBANDWIDTH" 	=>  buildUpdateBandwidth()
-			case "UPDATECONNECTION" =>  buildUpdateConnection()
- 		   	case "STOP"	  			=>  jsonToKinesis = buildStop()
- 			case _        			=>  jsonToKinesis = ""
+ 			case "PLAY"   		     =>  jsonToKinesis = buildPlay()
+ 		    case "UPDATE"			 =>  jsonToKinesis = buildUpdatePlayback()
+	    	case "UPDATEOPERATIONAL" =>  buildUpdateOperational()
+    		case "STOP"	  			 =>  jsonToKinesis = buildStop()
+ 			case _        			 =>  jsonToKinesis = ""
  		}
 		return jsonToKinesis
 	}
@@ -164,85 +161,56 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		return update
 	}
 
-	def buildUpdateCodec() = {
-		/*var renderedResolution = new ArrayList[String]()		
-		for (i <- 0 until (vodContent.content.genres).length){
-			renderedResolution.add(vodContent.content.genres(i))
-		}*/
+	def buildUpdateOperational() = {
+
+		val codecQuality : HashMap[String,Object] = new HashMap[String,Object]
+		codecQuality.put("renderedFrameRate", new Integer (random.nextInt(1000)))
+    	codecQuality.put("renderedResolution", "1080p")
+    	codecQuality.put("renderedFrames", new Integer (random.nextInt(1000)))
+    	codecQuality.put("decodedFrames", new Integer (random.nextInt(1000)))
+    	codecQuality.put("droppedFrames", new Integer (random.nextInt(1000)))
+
+    	val modulationQuality : HashMap[String,Object] = new HashMap[String,Object]
+    	modulationQuality.put("powerLevel", new Integer (random.nextInt(1000)))
+
+    	val streamingQuality : HashMap[String,Object] = new HashMap[String,Object]
+		streamingQuality.put("minBufferLengthBytes", new Integer (random.nextInt(1000)))
+
+    	val profile : HashMap[String,Object] = new HashMap[String,Object]
+    	profile.put("bitrate", new Integer (profileContent.bitrate))
+    	profile.put("resolution", profileContent.resolution)
+    	profile.put("frameRate", new Integer (profileContent.frameRate))
+
+    	val bandwidth : HashMap[String,Object] = new HashMap[String,Object]
+    	bandwidth.put("bandwidth",new Integer (random.nextInt(1000)))
+
+    	val streaming : HashMap[String,Object] = new HashMap[String,Object]
+    	streaming.put("profile",profile)
+		streaming.put("bandwidth",bandwidth)
+
+    	val listConnectionType : List[String] = List("Eth","CM","Wifi","Mobile","Other")
 
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("renderedFrameRate", new Integer (random.nextInt(1000)))
-    	//updateParams.put("renderedResolution", renderedResolution)
-    	updateParams.put("renderedFrames", new Integer (random.nextInt(1000)))
-    	updateParams.put("decodedFrames", new Integer (random.nextInt(1000)))
-    	updateParams.put("droppedFrames", new Integer (random.nextInt(1000)))
+		updateParams.put("codecQuality",codecQuality)
+		updateParams.put("modulationQuality",modulationQuality)
+		updateParams.put("streamingQuality",streamingQuality)
+		updateParams.put("streaming", streaming)
+		
+		updateParams.put("connectionType",listConnectionType(random.nextInt(listConnectionType.length)))	
 
-   		val updateCodec : HashMap[String, Object] = new HashMap[String, Object]
-    	updateCodec.put("action", "update-codec-quality")
-    	updateCodec.put("params", updateParams)
+
+   		val updateOperational : HashMap[String, Object] = new HashMap[String, Object]
+    	updateOperational.put("action", "update-operational")
+    	updateOperational.put("params", updateParams)
+
+    	println("UPDATEOPERATIONAL " + updateOperational )
  	
     	try {
-    		client.log(updateCodec)
+    		client.log(updateOperational)
     	} catch {
     		case e: Exception => e.printStackTrace
   		}
 	}
-
-	def buildUpdateProfile() = {
-
-		var resolution = new ArrayList[Int]()		
-		for (i <- 0 until (profileContent.resolution).length){
-			resolution.add(profileContent.resolution(i))
-		}
-
-
-		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bitrate", new Integer (profileContent.bitrate))
-    	updateParams.put("resolution", resolution)
-    	updateParams.put("frameRate", new Integer (profileContent.frameRate))
-
-   		val updateProfile : HashMap[String, Object] = new HashMap[String, Object]
-    	updateProfile.put("action", "update-profile")
-    	updateProfile.put("params", updateParams)
-    	
-    	try {
-    		client.log(updateProfile)
-    	} catch {
-    		case e: Exception => e.printStackTrace
-  		}
-	}
-
-	def buildUpdateBandwidth()  = {
-
-		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("bandwidth",new Integer (random.nextInt(1000)))
-
-   		val updateBandwidth : HashMap[String, Object] = new HashMap[String, Object]
-    	updateBandwidth.put("action", "update-bandwidth")
-    	updateBandwidth.put("params", updateParams)
-
-		try {
-    		client.log(updateBandwidth)
-    	} catch {
-    		case e: Exception => e.printStackTrace
-  		}
-    }
-
-	def buildUpdateConnection()  = {
-		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-		val listConnectionType : List[String] = List("Eth","CM","Wifi","Mobile","Other")
-    	updateParams.put("connectionType", listConnectionType(random.nextInt(listConnectionType.length)))
-
-   		val updateConnection : HashMap[String, Object] = new HashMap[String, Object]
-    	updateConnection.put("action", "update-connection-type")
-    	updateConnection.put("params", updateParams)
-
-    	try {
-    		client.log(updateConnection)
-    	} catch {
-    		case e: Exception => e.printStackTrace
-  		}
-    }
 
 	def buildStop() :  String = {
 		val stopParams : HashMap[String, Object] = new HashMap[String, Object]
