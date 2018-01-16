@@ -172,9 +172,12 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
     	val modulationQuality : HashMap[String,Object] = new HashMap[String,Object]
     	modulationQuality.put("powerLevel", new Integer (random.nextInt(1000)))
+    	modulationQuality.put("BER", new Integer (random.nextInt(1000)))
+    	modulationQuality.put("SNR", new Integer (random.nextInt(1000)))
 
     	val streamingQuality : HashMap[String,Object] = new HashMap[String,Object]
 		streamingQuality.put("minBufferLengthBytes", new Integer (random.nextInt(1000)))
+		streamingQuality.put("timeUnderrun", new Integer (random.nextInt(1000)))
 
     	val profile : HashMap[String,Object] = new HashMap[String,Object]
     	profile.put("bitrate", new Integer (profileContent.bitrate))
