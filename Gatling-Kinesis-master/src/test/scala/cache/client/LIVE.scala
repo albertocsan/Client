@@ -41,6 +41,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		val content : HashMap[String, Object] = new HashMap[String, Object]
 		content.put("contentId", liveContent.content.contentId)
 		content.put("title", liveContent.content.title)
+		content.put("duration", liveContent.content.duration)
 
 		val channel : HashMap[String, Object] = new HashMap[String, Object]
 		channel.put("serviceId", liveContent.channel.serviceId)
@@ -80,6 +81,9 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("drmSetupTime", new Integer (random.nextInt(1000)))
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
 
+		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
+		cableModulation.put("dvbTriplet", "ONID")
+		cableModulation.put("frequency", new Integer (1000))
 
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
@@ -89,6 +93,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		params.put("tracks", tracks)
 		params.put("streaming", streaming)
 		params.put("vst", vst)
+		params.put("cableModulation", cableModulation)
 		
 		val playback : HashMap[String, Object] = new HashMap[String, Object]
 		playback.put("action", "new-playback")

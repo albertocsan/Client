@@ -3,7 +3,8 @@
     {
       "content": {
         "contentId": "STND2374203619006837",
-        "title": "GeorgeDeLaSelva"
+        "title": "GeorgeDeLaSelva",
+        "duration": 4680
       },
       "product": {
         "price": 0,
@@ -22,7 +23,8 @@
     {
       "content": {
         "contentId": "STND2374203619006838",
-        "title": "GeorgeDeLaSelva 2"
+        "title": "GeorgeDeLaSelva 2",
+        "duration": 7200
       },
       "product": {
         "price": 1,

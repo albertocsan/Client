@@ -3,7 +3,8 @@
     {
       "content": {
         "contentId": "STND2374203619006837",
-        "title": "The Wiz Live!"
+        "title": "The Wiz Live!",
+        "duration": 5000
       },
       "channel": {
         "serviceId": "97007",
@@ -18,7 +19,8 @@
     {
       "content": {
         "contentId": "STND2374203619006838",
-        "title": "The Wiz Live! 2"
+        "title": "The Wiz Live! 2",
+        "duration": 600
       },
       "channel": {
         "serviceId": "97007",

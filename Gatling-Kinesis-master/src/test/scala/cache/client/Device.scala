@@ -106,7 +106,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
 
     val subscriber : HashMap[String, Object] = new HashMap[String, Object]
     subscriber.put("subscriberId", "7500")
-    subscriber.put("region", "SPA")
+    subscriber.put("region", "METRO")
     subscriber.put("zipcode", "28400")
 
     val sessionParams : HashMap[String, Object] = new HashMap[String, Object]

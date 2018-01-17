@@ -1,14 +1,14 @@
 {
   "profiles": [
     {
-        "bitrate": 1,
+        "bitrate": 1000,
         "resolution": "1280x768",
-        "frameRate": 3
+        "frameRate": 35
     },
     {
-        "bitrate": 2,
-        "resolution":"1280x768",
-        "frameRate": 4
+        "bitrate": 2500,
+        "resolution":"7680×4800",
+        "frameRate": 43
     },
   ]
 }

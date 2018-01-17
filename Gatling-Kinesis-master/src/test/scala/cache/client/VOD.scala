@@ -58,6 +58,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		//content.put("genres",genres)
 		//content.put("parentalRating", vodContent.content.parentalRating)
 		content.put("title", vodContent.content.title)
+		content.put("duration", vodContent.content.duration)
 
 		val productParams : HashMap[String, Object] = new HashMap[String, Object]
 		productParams.put("price",new Integer (vodContent.product.price))
@@ -111,16 +112,20 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("drmSetupTime", new Integer (random.nextInt(1000)))
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
 
+		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
+		cableModulation.put("dvbTriplet", "ONID")
+		cableModulation.put("frequency", new Integer (1000))
+
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
 		params.put("product", productParams)
 		//params.put("options", options)
 		params.put("delivery", delivery)
-
 		//OPERACIONAL
 		params.put("tracks", tracks)
 		params.put("streaming", streaming)
 		params.put("vst", vst)
+		params.put("cableModulation", cableModulation)
 
 		//params.put("subscription", subscription)
 		params.put("playposition", new Integer(generatePlayposition()))
@@ -131,6 +136,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		playback.put("action", "new-playback")
 		playback.put("params", params)
 
+		
 		var play = "" 
 		try {
     		play = client.log(playback)
@@ -230,7 +236,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	private def generatePlayposition() : Int = {
 		
-		this.playposition = random.nextInt(100000)
+		this.playposition = random.nextInt(15000)
 		return playposition
 	}
 

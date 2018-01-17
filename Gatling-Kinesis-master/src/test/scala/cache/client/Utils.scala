@@ -25,7 +25,8 @@ class Utils  {
 		contentId: String,
 		//genres: List[String],
 		//parentalRating: String,
-		title: String
+		title: String,
+		duration: Integer
 	)
 
 	case class Product (
