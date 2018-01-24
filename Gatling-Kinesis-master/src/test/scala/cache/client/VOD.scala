@@ -112,8 +112,12 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
 
 		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
-		cableModulation.put("dvbTriplet", "ONID")
+		cableModulation.put("dvbTriplet", "12.23.34")
 		cableModulation.put("frequency", new Integer (1000))
+		cableModulation.put("modulation", new Integer (1000))
+		cableModulation.put("symbolRate", new Integer (1000))
+		cableModulation.put("fecInner", new Integer (1000))
+		cableModulation.put("fecOuter", new Integer (1000))
 
 		val error : HashMap[String, Object] = new HashMap[String, Object]
 		error.put("errorCode", "z-1520")
@@ -134,8 +138,8 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		params.put("playposition", new Integer(generatePlayposition()))
 		params.put("pageName", vodContent.pageName)
 		//params.put("appSection", "catalogue")
-		params.put("reason", "cancel")
-		//params.put("error", error)
+		//params.put("reason", "cancel")
+		params.put("error", error)
 		
 		
 
@@ -211,15 +215,15 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		updateParams.put("codecQuality",codecQuality)
 		updateParams.put("modulationQuality",modulationQuality)
 		updateParams.put("streamingQuality",streamingQuality)
-		updateParams.put("streaming", streaming)
-		
+		updateParams.put("streaming", streaming)		
 		updateParams.put("connectionType",listConnectionType(random.nextInt(listConnectionType.length)))	
 
 
    		val updateOperational : HashMap[String, Object] = new HashMap[String, Object]
     	updateOperational.put("action", "update-operational")
     	updateOperational.put("params", updateParams)
- 	
+
+
     	try {
     		client.log(updateOperational)
     	} catch {

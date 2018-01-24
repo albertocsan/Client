@@ -82,22 +82,35 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
 
 		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
-		cableModulation.put("dvbTriplet", "ONID")
+		cableModulation.put("dvbTriplet", "12.23.34")
 		cableModulation.put("frequency", new Integer (1000))
+		cableModulation.put("modulation", new Integer (1000))
+		cableModulation.put("symbolRate", new Integer (1000))
+		cableModulation.put("fecInner", new Integer (1000))
+		cableModulation.put("fecOuter", new Integer (1000))
+
+		val error : HashMap[String, Object] = new HashMap[String, Object]
+		error.put("errorCode", "z-1520")
+		error.put("reason", "cancel")
 
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
 		params.put("channel", channel)
 		params.put("delivery", delivery)
 		params.put("playtime", Instant.now().toString())
+		//OPERACIONAL
 		params.put("tracks", tracks)
 		params.put("streaming", streaming)
 		params.put("vst", vst)
 		params.put("cableModulation", cableModulation)
 		
+		//params.put("reason", "cancel")
+		//params.put("error", error)
+		
 		val playback : HashMap[String, Object] = new HashMap[String, Object]
 		playback.put("action", "new-playback")
 		playback.put("params", params)
+
 
 		var play = "" 
 		try {
@@ -154,14 +167,17 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
     	val bandwidth : HashMap[String,Object] = new HashMap[String,Object]
     	bandwidth.put("bandwidth",new Integer (random.nextInt(1000)))
 
+    	val streaming : HashMap[String,Object] = new HashMap[String,Object]
+    	streaming.put("profile",profile)
+		streaming.put("bandwidth",bandwidth)
+
     	val listConnectionType : List[String] = List("Eth","CM","Wifi","Mobile","Other")
 
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
 		updateParams.put("codecQuality",codecQuality)
 		updateParams.put("modulationQuality",modulationQuality)
 		updateParams.put("streamingQuality",streamingQuality)
-		updateParams.put("profile",profile)
-		updateParams.put("bandwidth",bandwidth)
+		updateParams.put("streaming", streaming)
 		updateParams.put("connectionType",listConnectionType(random.nextInt(listConnectionType.length)))	
 
 
@@ -177,16 +193,25 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildStop() :  String = {
+		val error : HashMap[String, Object] = new HashMap[String, Object]
+		error.put("errorCode", "z-1520")
+		error.put("reason", "cancel")
+
 		val stopParams : HashMap[String, Object] = new HashMap[String, Object]
     	stopParams.put("playtime", Instant.now().toString())
+    	//stopParams.put("error", error)
 
    		val stopPlayback : HashMap[String, Object] = new HashMap[String, Object]
     	stopPlayback.put("action", "stop-playback")
     	stopPlayback.put("params", stopParams)
 
-    	var stop = client.log(stopPlayback)
-    	println("return de libreria : "+ stop )
+    	var stop = ""
+    	try {
+    		stop = client.log(stopPlayback)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
 
-		return stop
+		return stop	
 	}
 }
