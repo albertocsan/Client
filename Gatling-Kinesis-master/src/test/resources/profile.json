@@ -10,5 +10,26 @@
         "resolution":"7680×4800",
         "frameRate": 43
     },
+    {
+        "bitrate": 5500,
+        "resolution":"7680×4800",
+        "frameRate": 43
+    },
+    {
+        "bitrate": 6500,
+        "resolution":"7680×4800",
+        "frameRate": 43
+    },
+    {
+        "bitrate": 7500,
+        "resolution":"7680×4800",
+        "frameRate": 43
+    },
+    {
+        "bitrate": 8500,
+        "resolution":"7680×4800",
+        "frameRate": 43
+    },
+
   ]
 }

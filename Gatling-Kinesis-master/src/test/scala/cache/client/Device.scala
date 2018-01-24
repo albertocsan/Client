@@ -13,13 +13,13 @@ import tvmetrix.client.java._
 import java.util.HashMap
 
 
-class Device(kinesisStream: String, sessionType: String, listActions: List[String]) extends Protocol {
+class Device(kinesisStream: String, sessionType: String, listActions: List[String], region: String) extends Protocol {
   val utils =  new Utils()
   val deviceInfo = utils.getDevice()
 
   val kinesisClient = new AmazonKinesisClient()
-  var region = Regions.US_EAST_1
-  kinesisClient.setRegion(Region.getRegion(region))
+  var regionAWS = Regions.US_EAST_1
+  kinesisClient.setRegion(Region.getRegion(regionAWS))
   checkIsAuthorised(kinesisClient)
   val client  = TvMetrix.create(msgDeviceInfo())
   var index = 0 
@@ -106,7 +106,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
 
     val subscriber : HashMap[String, Object] = new HashMap[String, Object]
     subscriber.put("subscriberId", "7500")
-    subscriber.put("region", "METRO")
+    subscriber.put("region", region)
     subscriber.put("zipcode", "28400")
 
     val sessionParams : HashMap[String, Object] = new HashMap[String, Object]

@@ -15,8 +15,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
  	var indexAction : Int = 0
  	var playposition : Int = 0
  	val vodContent  = utils.getVod()
- 	val trackContent = utils.getTrack()
- 	val profileContent = utils.getProfile()
+ 	val trackContent = utils.getTrack() 	
  	val random = scala.util.Random
  	
 	def executeNextAction(resolution : List[Integer]): String ={
@@ -33,7 +32,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
     		case "STOP"	  			 =>  jsonToKinesis = buildStop()
  			case _        			 =>  jsonToKinesis = ""
  		}
-		return jsonToKinesis
+ 		return jsonToKinesis
 	}
 
 	def buildPlay() :  String = {
@@ -116,6 +115,10 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		cableModulation.put("dvbTriplet", "ONID")
 		cableModulation.put("frequency", new Integer (1000))
 
+		val error : HashMap[String, Object] = new HashMap[String, Object]
+		error.put("errorCode", "z-1520")
+		error.put("reason", "cancel")
+
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
 		params.put("product", productParams)
@@ -131,7 +134,11 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		params.put("playposition", new Integer(generatePlayposition()))
 		params.put("pageName", vodContent.pageName)
 		//params.put("appSection", "catalogue")
+		params.put("reason", "cancel")
+		//params.put("error", error)
 		
+		
+
 		val playback : HashMap[String, Object] = new HashMap[String, Object]
 		playback.put("action", "new-playback")
 		playback.put("params", params)
@@ -159,7 +166,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
     	var update = ""
     	try {
-    		update = client.log(updatePlayback)
+    		update = client.log(updatePlayback)    		
     	} catch {
     		case e: Exception => e.printStackTrace
   		}
@@ -168,6 +175,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdateOperational() = {
+		val profileContent = utils.getProfile()
 
 		val codecQuality : HashMap[String,Object] = new HashMap[String,Object]
 		codecQuality.put("renderedFrameRate", new Integer (random.nextInt(1000)))
@@ -211,8 +219,6 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
    		val updateOperational : HashMap[String, Object] = new HashMap[String, Object]
     	updateOperational.put("action", "update-operational")
     	updateOperational.put("params", updateParams)
-
-    	println("UPDATEOPERATIONAL " + updateOperational )
  	
     	try {
     		client.log(updateOperational)
@@ -222,14 +228,25 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildStop() :  String = {
+		
+		val error : HashMap[String, Object] = new HashMap[String, Object]
+		error.put("errorCode", "z-1520")
+		error.put("reason", "cancel")
+
 		val stopParams : HashMap[String, Object] = new HashMap[String, Object]
     	stopParams.put("playposition", new Integer(generatePlayposition()))
+    	//stopParams.put("error", error)
 
    		val stopPlayback : HashMap[String, Object] = new HashMap[String, Object]
     	stopPlayback.put("action", "stop-playback")
     	stopPlayback.put("params", stopParams)
 
-    	var stop = client.log(stopPlayback)
+    	var stop = ""
+    	try {
+    		stop = client.log(stopPlayback)
+    	} catch {
+    		case e: Exception => e.printStackTrace
+  		}
 
 		return stop
 	}

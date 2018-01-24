@@ -88,7 +88,7 @@ class Utils  {
 	def getDevice() : Device = {
 
 		implicit val formats = DefaultFormats
-		var indexDevice = 0 
+		var indexDevice = random.nextInt(5)  
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
 		var countDevices =  ((jsonDevices\"devices").children).size
       	indexDevice = random.nextInt(countDevices)
@@ -99,7 +99,7 @@ class Utils  {
 	def getVod(): VOD = {
 
 		implicit val formats = DefaultFormats
-		var indexProduct = 0 
+		var indexProduct = random.nextInt(2) 
 		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
 		var countProducts =  ((jsonVod\"products").children).size
       	indexProduct = random.nextInt(countProducts)
@@ -111,7 +111,7 @@ class Utils  {
 	def getLive(): Live = {
 
 		implicit val formats = DefaultFormats
-		var indexLive = 0 
+		var indexLive = random.nextInt(2)  
 		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
 		var countLives =  ((jsonLive\"lives").children).size
       	indexLive = random.nextInt(countLives)
@@ -123,7 +123,7 @@ class Utils  {
 	def getTrack(): Track = {
 
 		implicit val formats = DefaultFormats
-		var indexTrack = 0 
+		var indexTrack = random.nextInt(2) 
 		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
 		var countTracks =  ((jsonTrack\"tracks").children).size
       	indexTrack = random.nextInt(countTracks)
@@ -135,7 +135,7 @@ class Utils  {
 	def getProfile(): Profile = {
 
 		implicit val formats = DefaultFormats
-		var indexProfile = 0 
+		var indexProfile = random.nextInt(6) 
 		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
 		var countProfiles =  ((jsonProfile\"profiles").children).size
       	indexProfile = random.nextInt(countProfiles)
