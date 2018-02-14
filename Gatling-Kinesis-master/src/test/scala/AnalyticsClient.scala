@@ -19,11 +19,15 @@ class AnalyticsClient extends Simulation{
   val sessionType: String = "VOD"
   //When you do UPDATE, the system simulate one ALIVE EVENT.
   // PLAY - UPDATE - UPDATEOPERATIONAL - STOP
-  val listActions: List[String] = List("PLAY")
+  val listActions: List[String] = List("PLAY","UPDATEOPERATIONAL","UPDATEOPERATIONAL","UPDATE","STOP")
   //Number Users at once
   val users = 1
 
+<<<<<<< HEAD
   val region = "MONTERREY"
+=======
+  val region = "MONTEREY"
+>>>>>>> d7b8d65c63430be39eeffe40bc705868adc6860d
   
 
   //Number max Users
@@ -36,7 +40,7 @@ class AnalyticsClient extends Simulation{
   val workbench = new Workbench(kinesisStreamName, sessionType, listActions, region)
   val clientAction = new ClientActionBuilder(workbench)
   //Same number exec(clientAction) that length to listActions
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction)
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).exec(clientAction).exec(clientAction).exec(clientAction).exec(clientAction)
 
 
  //Operational
