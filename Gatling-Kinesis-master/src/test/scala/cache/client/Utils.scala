@@ -78,6 +78,7 @@ class Utils  {
 		resolution: String,
 		language: String
 	)
+
 	
 	case class Profile(
 		bitrate: Integer,
@@ -88,10 +89,9 @@ class Utils  {
 	def getDevice() : Device = {
 
 		implicit val formats = DefaultFormats
-		var indexDevice = random.nextInt(5)  
 		val jsonDevices = parse(Source.fromFile("src/test/resources/device.json").mkString)
 		var countDevices =  ((jsonDevices\"devices").children).size
-      	indexDevice = random.nextInt(countDevices)
+      	var indexDevice = random.nextInt(countDevices)
      	val device  = (jsonDevices\"devices")(indexDevice).extract[Device]
 		return device
 	}
@@ -99,10 +99,9 @@ class Utils  {
 	def getVod(): VOD = {
 
 		implicit val formats = DefaultFormats
-		var indexProduct = random.nextInt(2) 
 		val jsonVod = parse(Source.fromFile("src/test/resources/vod.json").mkString)
 		var countProducts =  ((jsonVod\"products").children).size
-      	indexProduct = random.nextInt(countProducts)
+      	var indexProduct = random.nextInt(countProducts)
 		val vodContent  = (jsonVod\"products")(indexProduct).extract[VOD]
 		
 		return vodContent
@@ -111,34 +110,27 @@ class Utils  {
 	def getLive(): Live = {
 
 		implicit val formats = DefaultFormats
-		var indexLive = random.nextInt(2)  
 		val jsonLive = parse(Source.fromFile("src/test/resources/live.json").mkString)
 		var countLives =  ((jsonLive\"lives").children).size
-      	indexLive = random.nextInt(countLives)
+      	var indexLive = random.nextInt(countLives)
 		val liveContent  = (jsonLive\"lives")(indexLive).extract[Live]
 		
 		return liveContent
 	}
 
-	def getTrack(): Track = {
-
-		implicit val formats = DefaultFormats
-		var indexTrack = random.nextInt(2) 
-		val jsonTrack = parse(Source.fromFile("src/test/resources/track.json").mkString)
-		var countTracks =  ((jsonTrack\"tracks").children).size
-      	indexTrack = random.nextInt(countTracks)
-		val trackContent  = (jsonTrack\"tracks")(indexTrack).extract[Track]
+	/*def getTrack(): String = {
 		
-		return trackContent
-	}
+		val jsonTrack = Source.fromFile("src/test/resources/track.json").mkString
+		println("TRACKS " +jsonTrack )	
+		return jsonTrack
+	}*/
 
 	def getProfile(): Profile = {
 
 		implicit val formats = DefaultFormats
-		var indexProfile = random.nextInt(6) 
 		val jsonProfile = parse(Source.fromFile("src/test/resources/profile.json").mkString)
 		var countProfiles =  ((jsonProfile\"profiles").children).size
-      	indexProfile = random.nextInt(countProfiles)
+      	var indexProfile = random.nextInt(countProfiles)
 		val profileContent  = (jsonProfile\"profiles")(indexProfile).extract[Profile]
 		
 		return profileContent

@@ -32,8 +32,18 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
 
     if (index == 0) {
       sentToKinesis = buildStart()
+      println("SENT TO KINESIS: " + sentToKinesis)
+      println("")
+      val request = new PutRecordRequest()
+      request.setStreamName(kinesisStream)
+      val jsonPayload = serialNumberGenerator(sentToKinesis)
+      request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
+      request.setPartitionKey(util.Random.nextInt(10000).toString)
+      //kinesisClient.putRecord(request) 
+      println("KINESIS OK")
+     
       this.index = 1
-    }
+    } 
 
     if (sessionType == "VOD") {
       sentToKinesis = vod.executeNextAction(deviceInfo.resolution)
@@ -42,7 +52,6 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     if (sessionType == "LIVE"){
       sentToKinesis = live.executeNextAction(deviceInfo.resolution)
     }
-
     
     //  <---- KINESIS ---->
     if (sentToKinesis != ""){
@@ -53,17 +62,15 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       val jsonPayload = serialNumberGenerator(sentToKinesis)
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
       request.setPartitionKey(util.Random.nextInt(10000).toString)
-      kinesisClient.putRecord(request) 
+      //kinesisClient.putRecord(request) 
       println("KINESIS OK")
- 
-    }
-    
-
-
+     }
   }
 
   //<---- GENERATE DEVICE ---->
   def msgDeviceInfo() : HashMap[String,Object] = {
+
+    
    
     val device : HashMap[String, Object] = new HashMap[String, Object]
     device.put("class", deviceInfo.`class`)
@@ -71,20 +78,13 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     device.put("platformVersion", deviceInfo.platformVersion)
     device.put("make", deviceInfo.make)
     device.put("model", deviceInfo.model)
-    device.put("deviceId", deviceInfo.deviceId)  
+    device.put("deviceId", deviceInfo.deviceId)
+    
 
     val configLib : HashMap[String, Object] = new HashMap[String, Object]
     configLib.put("appName", "app")
     configLib.put("appVersion", "app-1.0.0")
     configLib.put("device", device)
-   
-
-    configLib.put("timeFn", new TvMetrixTimeProvider() {
-      def getCurrentTime() : Long = {
-        var now:Long = System.currentTimeMillis() 
-        return now
-      } 
-    })
     /*configLib.put("putFn", new TvMetrixEventSink() {
       def put(action:Object , data:String ) {
       }
@@ -104,14 +104,19 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   // <---- START SESSION ---->
   private def buildStart() :  String = {
 
+    val random = scala.util.Random
+
     val subscriber : HashMap[String, Object] = new HashMap[String, Object]
     subscriber.put("subscriberId", "7500")
     subscriber.put("region", region)
     subscriber.put("zipcode", "28400")
 
+    val listBoostrap : List[String] = List("1.0.6-Mirada","1.0.10-Mirada","1.0.7","1.1.7-Rc","1.1.8")
+
     val sessionParams : HashMap[String, Object] = new HashMap[String, Object]
     sessionParams.put("language", "SPA")
     sessionParams.put("subscriber", subscriber)
+    sessionParams.put("bootstrap",listBoostrap(random.nextInt(listBoostrap.length)))  
 
     val sessionAction : HashMap[String, Object] = new HashMap[String, Object]
     sessionAction.put("action", "new-session")

@@ -1,16 +1,18 @@
 {
-  "tracks": [
-    {
-        "type": "video",
-        "coding": "coding",
-        "resolution": "1280×768",
-        "language": "SPN"
-    },
-    {
-        "type": "video",
-        "coding": "coding2",
-        "resolution": "1280×768",
-        "language": "SPN"
-    },
-  ]
-}
+  "type": "video",
+  "coding": "coding",
+  "resolution": "1280×768",
+  "language": "SPN"
+},
+{
+  "type": "video",
+  "coding": "coding2",
+  "resolution": "1280×768",
+  "language": "SPN"
+},
+{
+  "type": "video",
+  "coding": "coding3",
+  "resolution": "1280×768",
+  "language": "SPN"
+} 

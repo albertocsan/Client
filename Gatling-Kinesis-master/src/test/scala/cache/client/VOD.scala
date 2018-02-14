@@ -15,7 +15,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
  	var indexAction : Int = 0
  	var playposition : Int = 0
  	val vodContent  = utils.getVod()
- 	val trackContent = utils.getTrack() 	
+ 	//val trackContent = utils.getTrack()  	
  	val random = scala.util.Random
  	
 	def executeNextAction(resolution : List[Integer]): String ={
@@ -86,15 +86,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		subscription.put("subscriptionServiceName", "urn:tve:hbo")
 		subscription.put("subscriptionPackageName", "SVOD - Full")*/
 
-		val tracks : HashMap[String, Object] = new HashMap[String, Object]
-		tracks.put("type", trackContent.`type`)
-		tracks.put("coding", trackContent.coding)
-		if (trackContent.`type`=="video"){
-			tracks.put("resolution", trackContent.resolution)
-		}else{
-			tracks.put("language", trackContent.language)
-		}
-		
+			
 		var availableBitrates = new ArrayList[Int]()
 		availableBitrates.add(random.nextInt(1000))
 		availableBitrates.add(random.nextInt(1000))
@@ -123,31 +115,48 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		error.put("errorCode", "z-1520")
 		error.put("reason", "cancel")
 
+		/*val tracks : HashMap[String, Object] = new HashMap[String, Object]
+		tracks.put("type", trackContent.`type`)
+		tracks.put("coding", trackContent.coding)
+		if (trackContent.`type`=="video"){
+			tracks.put("resolution", trackContent.resolution)
+		}else{
+			tracks.put("language", trackContent.language)
+		}*/
+
+		/*var tracksArray = new ArrayList[Int]()
+		tracksArray.add(tracks)
+		tracksArray.add(tracks)*/
+
+		val operational : HashMap[String, Object] = new HashMap[String, Object]
+		//operational.put("tracks", trackContent)
+		operational.put("streaming", streaming)
+		operational.put("vst", vst)
+		operational.put("cableModulation", cableModulation)
+
+		println("operational" + operational)
+
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
 		params.put("product", productParams)
 		//params.put("options", options)
 		params.put("delivery", delivery)
-		//OPERACIONAL
-		params.put("tracks", tracks)
-		params.put("streaming", streaming)
-		params.put("vst", vst)
-		params.put("cableModulation", cableModulation)
-
 		//params.put("subscription", subscription)
 		params.put("playposition", new Integer(generatePlayposition()))
 		params.put("pageName", vodContent.pageName)
 		//params.put("appSection", "catalogue")
 		//params.put("reason", "cancel")
-		params.put("error", error)
+		//params.put("error", error)
+		//OPERACIONAL
+		params.put("operational", operational)	
+
+		
 		
 		
 
 		val playback : HashMap[String, Object] = new HashMap[String, Object]
 		playback.put("action", "new-playback")
 		playback.put("params", params)
-
-		
 		var play = "" 
 		try {
     		play = client.log(playback)
