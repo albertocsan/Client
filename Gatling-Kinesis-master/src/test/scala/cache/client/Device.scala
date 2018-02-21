@@ -39,7 +39,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       val jsonPayload = serialNumberGenerator(sentToKinesis)
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
       request.setPartitionKey(util.Random.nextInt(10000).toString)
-      //kinesisClient.putRecord(request) 
+      kinesisClient.putRecord(request) 
       println("KINESIS OK")
      
       this.index = 1
@@ -62,7 +62,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       val jsonPayload = serialNumberGenerator(sentToKinesis)
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
       request.setPartitionKey(util.Random.nextInt(10000).toString)
-      //kinesisClient.putRecord(request) 
+      kinesisClient.putRecord(request) 
       println("KINESIS OK")
      }
   }

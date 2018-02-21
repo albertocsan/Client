@@ -102,13 +102,18 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("deeplinkTime", new Integer (random.nextInt(1000)))
 		vst.put("drmSetupTime", new Integer (random.nextInt(1000)))
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
+		vst.put("probeTime", new Integer (random.nextInt(1000)))
+		vst.put("serviceAreaTime", new Integer (random.nextInt(1000)))
+		vst.put("setupRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("describeRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("playRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("bookmarkTime", new Integer (random.nextInt(1000)))
+		vst.put("ottGetTime", new Integer (random.nextInt(1000)))
+		vst.put("geoIP", new Integer (random.nextInt(1000)))
+
 
 		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
-<<<<<<< HEAD
 		cableModulation.put("dvbTriplet", "12.23.34")
-=======
-		cableModulation.put("dvbTriplet", "1.2.3")
->>>>>>> d7b8d65c63430be39eeffe40bc705868adc6860d
 		cableModulation.put("frequency", new Integer (1000))
 		cableModulation.put("modulation", new Integer (1000))
 		cableModulation.put("symbolRate", new Integer (1000))
@@ -134,11 +139,9 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val operational : HashMap[String, Object] = new HashMap[String, Object]
 		//operational.put("tracks", trackContent)
-		operational.put("streaming", streaming)
+		//operational.put("streaming", streaming)
 		operational.put("vst", vst)
-		operational.put("cableModulation", cableModulation)
-
-		println("operational" + operational)
+		//operational.put("cableModulation", cableModulation)
 
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
@@ -236,12 +239,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
     	updateOperational.put("action", "update-operational")
     	updateOperational.put("params", updateParams)
 
-<<<<<<< HEAD
 
-=======
-    	println("UPDATE OP" + updateParams)
- 	
->>>>>>> d7b8d65c63430be39eeffe40bc705868adc6860d
     	try {
     		client.log(updateOperational)
     	} catch {

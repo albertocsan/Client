@@ -15,7 +15,7 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
  	var indexAction = 0
  	
  	val liveContent  = utils.getLive()
- 	val trackContent = utils.getTrack()
+ 	//val trackContent = utils.getTrack()
  	val profileContent = utils.getProfile()
  	val random = scala.util.Random
 
@@ -96,8 +96,8 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		val operational : HashMap[String, Object] = new HashMap[String, Object]
 		//operational.put("tracks", trackContent)
 		operational.put("streaming", streaming)
-		operational.put("vst", vst)
-		operational.put("cableModulation", cableModulation)
+		//operational.put("vst", vst)
+		//operational.put("cableModulation", cableModulation)
 
 		val params : HashMap[String, Object] = new HashMap[String, Object]
 		params.put("content", content)
