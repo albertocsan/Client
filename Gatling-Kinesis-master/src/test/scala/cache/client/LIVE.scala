@@ -80,6 +80,15 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("deeplinkTime", new Integer (random.nextInt(1000)))
 		vst.put("drmSetupTime", new Integer (random.nextInt(1000)))
 		vst.put("authoringTime", new Integer (random.nextInt(1000)))
+		vst.put("probeTime", new Integer (random.nextInt(1000)))
+		vst.put("serviceAreaTime", new Integer (random.nextInt(1000)))
+		vst.put("setupRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("describeRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("playRTSPTime", new Integer (random.nextInt(1000)))
+		vst.put("bookmarkTime", new Integer (random.nextInt(1000)))
+		vst.put("ottGetTime", new Integer (random.nextInt(1000)))
+		vst.put("geoIP", new Integer (random.nextInt(1000)))
+		vst.put("concurrencyTime", new Integer (random.nextInt(1000)))
 
 		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
 		cableModulation.put("dvbTriplet", "12.23.34")
@@ -104,15 +113,11 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		params.put("channel", channel)
 		params.put("delivery", delivery)
 		params.put("playtime", Instant.now().toString())
-		//OPERACIONAL
-		//params.put("tracks", tracks)
-		params.put("streaming", streaming)
-		params.put("vst", vst)
-		params.put("cableModulation", cableModulation)		
+		
 		//params.put("reason", "cancel")
 		//params.put("error", error)
 		//OPERACIONAL
-		//params.put("operational", operational)
+		params.put("operational", operational)
 		
 		val playback : HashMap[String, Object] = new HashMap[String, Object]
 		playback.put("action", "new-playback")

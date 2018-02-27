@@ -125,7 +125,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     var start = "" 
     try {
         start = client.log(sessionAction)
-        println("ACTION START " + start)
+        println("ACTION START SESSION")
         println("")
       } catch {
         case e: Exception => e.printStackTrace

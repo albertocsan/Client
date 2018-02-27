@@ -21,7 +21,7 @@ class AnalyticsClient extends Simulation{
   // PLAY - UPDATE - UPDATEOPERATIONAL - STOP
   val listActions: List[String] = List("PLAY")
   //Number Users at once
-  val users = 2
+  val users = 1
 
   val region = "MONTERREY"
   

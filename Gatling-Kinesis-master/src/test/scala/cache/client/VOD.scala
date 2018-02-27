@@ -94,8 +94,8 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val streaming : HashMap[String, Object] = new HashMap[String, Object]
 		streaming.put("availableBitrates", availableBitrates)
-		
 
+		//PHASES VST//
 		val vst : HashMap[String, Object] = new HashMap[String, Object]
 		vst.put("totalTime", new Integer (random.nextInt(1000)))
 		vst.put("ottProvisionTime", new Integer (random.nextInt(1000)))
@@ -110,7 +110,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		vst.put("bookmarkTime", new Integer (random.nextInt(1000)))
 		vst.put("ottGetTime", new Integer (random.nextInt(1000)))
 		vst.put("geoIP", new Integer (random.nextInt(1000)))
-
+		vst.put("concurrencyTime", new Integer (random.nextInt(1000)))
 
 		val cableModulation : HashMap[String, Object] = new HashMap[String, Object]
 		cableModulation.put("dvbTriplet", "12.23.34")
