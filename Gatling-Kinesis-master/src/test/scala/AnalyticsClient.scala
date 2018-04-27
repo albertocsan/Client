@@ -13,30 +13,29 @@ import java.util.HashMap
 
 class AnalyticsClient extends Simulation{
 
-  private val kinesisStreamName =  Helpers.getEnvOrDefault("kinesis-stream", "tvmetrix")
-  
-  // VOD OR LIVE
-  val sessionType: String = "VOD"
+  //config in your local variable
+  private val kinesisStreamName =  Helpers.getEnvOrDefault("KINESIS_STREAM", "tvmetrix")
+  // VOD OR LIVE OR CLOUDDVR
+  val sessionType: String = "CLOUDDVR"
   //When you do UPDATE, the system simulate one ALIVE EVENT.
   // PLAY - UPDATE - UPDATEOPERATIONAL - STOP
-  val listActions: List[String] = List("PLAY")
+  val listActions: List[String] = List("PLAY","STOP")
   //Number Users at once
-  val users = 1
+  val users = 10
 
-  val region = "MONTERREY"
+  val region = "TEST"
   
 
   //Number max Users
-  val maxUsers =  200
+  val maxUsers =  50
   // Time Injects a given number of users with a linear ramp over a given duration.
   val rampUpTime = 20 
   val runTime = 2
- 
 
   val workbench = new Workbench(kinesisStreamName, sessionType, listActions, region)
   val clientAction = new ClientActionBuilder(workbench)
   //Same number exec(clientAction) that length to listActions
-  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction)
+  val testScenario = scenario("Put Records into Kinesis Stream").exec(clientAction).exec(clientAction)
 
  //Operational
   setUp(
@@ -45,7 +44,7 @@ class AnalyticsClient extends Simulation{
     )
   )
  //Carga
-/*  setUp(
+ /*setUp(
         testScenario.inject(
                 rampUsers(maxUsers) over (rampUpTime seconds),
                 rampUsers(maxUsers * runTime) over (runTime minutes)

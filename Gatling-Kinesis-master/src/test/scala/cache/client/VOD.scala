@@ -40,12 +40,12 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		/*var genres = new ArrayList[String]()		
 		for (i <- 0 until (vodContent.content.genres).length){
 			genres.add(vodContent.content.genres(i))
-		}*/
+		}
 
 		var audioLanguages = new ArrayList[String]()
 		for (i <- 0 until (vodContent.delivery.audioLanguages).length){
 			audioLanguages.add(vodContent.delivery.audioLanguages(i))
-		}
+		}*/
 		/*
 		var audioFormats = new ArrayList[String]()
 		for (i <- 0 until (vodContent.delivery.audioFormats).length){
@@ -73,8 +73,8 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val delivery : HashMap[String, Object] = new HashMap[String, Object]
 		/*delivery.put("deliveryId", vodContent.delivery.deliveryId)
-		*/
-		delivery.put("audioLanguages",audioLanguages)
+		
+		delivery.put("audioLanguages",audioLanguages)*/
 		/*
 		delivery.put("audioFormats",audioFormats)*/
 		delivery.put("deliveryContext", vodContent.delivery.deliveryContext)
@@ -94,7 +94,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val streaming : HashMap[String, Object] = new HashMap[String, Object]
 		streaming.put("availableBitrates", availableBitrates)
-
+		
 		//PHASES VST//
 		val vst : HashMap[String, Object] = new HashMap[String, Object]
 		vst.put("totalTime", new Integer (random.nextInt(1000)))
@@ -139,7 +139,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		val operational : HashMap[String, Object] = new HashMap[String, Object]
 		//operational.put("tracks", trackContent)
-		//operational.put("streaming", streaming)
+		operational.put("streaming", streaming)
 		operational.put("vst", vst)
 		//operational.put("cableModulation", cableModulation)
 
@@ -155,7 +155,7 @@ class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 		//params.put("reason", "cancel")
 		//params.put("error", error)
 		//OPERACIONAL
-		params.put("operational", operational)	
+		//params.put("operational", operational)	
 
 		
 		

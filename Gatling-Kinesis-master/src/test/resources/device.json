@@ -6,7 +6,7 @@
         "platformVersion": "6.0",
         "make": "Google, Inc.",
         "model": "Nexus6",
-        "deviceId": "IA-253",
+        "deviceId": "f46abab2-ac50-4073-b28a-3796c0df5999",
         "resolution":[1270, 720]
     },
     {
@@ -15,7 +15,7 @@
 		"platformVersion": "11.0",
 		"make": "Apple, Inc.",
 		"model": "IphoneX",
-		"deviceId": "somedeviceid",
+		"deviceId": "f46abab2-ac50-4073-b28a-3796c0df5999",
         "resolution":[1270, 720]
 	},
     {
@@ -24,7 +24,7 @@
         "platformVersion": "11.0",
         "make": "Apple, Inc.",
         "model": "IphoneX",
-        "deviceId": "somedeviceid",
+        "deviceId": "f46abab2-ac50-4073-b28a-3796c0df5999",
         "resolution":[1270, 720]
     },
     {
@@ -33,7 +33,7 @@
         "platformVersion": "11.0",
         "make": "Apple, Inc.",
         "model": "IphoneX",
-        "deviceId": "somedeviceid",
+        "deviceId": "f46abab2-ac50-4073-b28a-3796c0df5999",
         "resolution":[1270, 720]
     },
     {
@@ -42,7 +42,7 @@
         "platformVersion": "11.0",
         "make": "Apple, Inc.",
         "model": "IphoneX",
-        "deviceId": "somedeviceid",
+        "deviceId": "f46abab2-ac50-4073-b28a-3796c0df5999",
         "resolution":[1270, 720]
     }
     

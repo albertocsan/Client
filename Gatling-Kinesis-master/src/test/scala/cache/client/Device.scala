@@ -22,10 +22,10 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   kinesisClient.setRegion(Region.getRegion(regionAWS))
   checkIsAuthorised(kinesisClient)
   val client  = TvMetrix.create(msgDeviceInfo())
-  var index = 0 
+  var index = 0
   val vod = new VOD(client, listActions)
   val live = new LIVE(client, listActions)
-   
+  val clouddvr = new CLOUDDVR(client,listActions)
   
   def execute() = {
     var sentToKinesis = ""
@@ -33,13 +33,12 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     if (index == 0) {
       sentToKinesis = buildStart()
       println("SENT TO KINESIS: " + sentToKinesis)
-      println("")
       val request = new PutRecordRequest()
       request.setStreamName(kinesisStream)
       val jsonPayload = serialNumberGenerator(sentToKinesis)
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
-      request.setPartitionKey(util.Random.nextInt(10000).toString)
-      kinesisClient.putRecord(request) 
+      request.setPartitionKey(deviceInfo.deviceId)
+      val response = kinesisClient.putRecord(request)
       println("KINESIS OK")
      
       this.index = 1
@@ -52,6 +51,10 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     if (sessionType == "LIVE"){
       sentToKinesis = live.executeNextAction(deviceInfo.resolution)
     }
+
+    if (sessionType == "CLOUDDVR"){
+      sentToKinesis = clouddvr.executeNextAction(deviceInfo.resolution)
+    }
     
     //  <---- KINESIS ---->
     if (sentToKinesis != ""){
@@ -61,7 +64,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       request.setStreamName(kinesisStream)
       val jsonPayload = serialNumberGenerator(sentToKinesis)
       request.setData(ByteBuffer.wrap(jsonPayload.getBytes()))
-      request.setPartitionKey(util.Random.nextInt(10000).toString)
+      request.setPartitionKey(deviceInfo.deviceId)
       kinesisClient.putRecord(request) 
       println("KINESIS OK")
      }
@@ -107,7 +110,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     val random = scala.util.Random
 
     val subscriber : HashMap[String, Object] = new HashMap[String, Object]
-    subscriber.put("subscriberId", "7500")
+    subscriber.put("subscriberId", "TEST888")
     subscriber.put("region", region)
     subscriber.put("zipcode", "28400")
 
