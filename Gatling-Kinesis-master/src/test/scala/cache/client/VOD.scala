@@ -12,8 +12,10 @@ import scala.collection.JavaConversions._
 class VOD(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	val utils =  new Utils()
+
  	var indexAction : Int = 0
  	var playposition : Int = 0
+	println("CONTENT VOD")
  	val vodContent  = utils.getVod()
  	//val trackContent = utils.getTrack()  	
  	val random = scala.util.Random

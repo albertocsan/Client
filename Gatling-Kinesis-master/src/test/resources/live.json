@@ -4,7 +4,8 @@
       "content": {
         "contentId": "STND2374203619006837",
         "title": "The Wiz Live!",
-        "duration": 5000
+        "duration": 5000,
+        "parentalRating": "13"
       },
       "channel": {
         "serviceId": "97007",
@@ -20,7 +21,8 @@
       "content": {
         "contentId": "STND2374203619006838",
         "title": "The Wiz Live! 2",
-        "duration": 600
+        "duration": 600,
+        "parentalRating": "13"
       },
       "channel": {
         "serviceId": "97007",

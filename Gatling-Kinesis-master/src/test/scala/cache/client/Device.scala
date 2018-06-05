@@ -16,7 +16,6 @@ import java.util.HashMap
 class Device(kinesisStream: String, sessionType: String, listActions: List[String], region: String) extends Protocol {
   val utils =  new Utils()
   val deviceInfo = utils.getDevice()
-
   val kinesisClient = new AmazonKinesisClient()
   var regionAWS = Regions.US_EAST_1
   kinesisClient.setRegion(Region.getRegion(regionAWS))
@@ -25,7 +24,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
   var index = 0
   val vod = new VOD(client, listActions)
   val live = new LIVE(client, listActions)
-  val clouddvr = new CLOUDDVR(client,listActions)
+  val dvr = new DVR(client,listActions)
   
   def execute() = {
     var sentToKinesis = ""
@@ -52,8 +51,8 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       sentToKinesis = live.executeNextAction(deviceInfo.resolution)
     }
 
-    if (sessionType == "CLOUDDVR"){
-      sentToKinesis = clouddvr.executeNextAction(deviceInfo.resolution)
+    if (sessionType == "DVR"){
+      sentToKinesis = dvr.executeNextAction(deviceInfo.resolution)
     }
     
     //  <---- KINESIS ---->
@@ -96,7 +95,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
       var now:Long = System.currentTimeMillis()
       def getCurrentTime() : Long = {
         var t:Long = now
-        this.now = this.now + 5*60000;
+        this.now = (this.now + 5*60000);
         return t
       } 
     })
@@ -113,6 +112,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     subscriber.put("subscriberId", "TEST888")
     subscriber.put("region", region)
     subscriber.put("zipcode", "28400")
+    subscriber.put("usage","usagetest")
 
     val listBoostrap : List[String] = List("1.0.6-Mirada","1.0.10-Mirada","1.0.7","1.1.7-Rc","1.1.8")
 

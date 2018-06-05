@@ -10,7 +10,7 @@ import net.liftweb.json._
 
 class Utils  {
 	val random = scala.util.Random
-		
+
 	case class Device (
 		`class`: String,
 		platform: String,
@@ -24,9 +24,9 @@ class Utils  {
 	case class Content (
 		contentId: String,
 		//genres: List[String],
-		//parentalRating: String,
 		title: String,
-		duration: Integer
+		duration: Integer,
+		parentalRating: String
 	)
 
 	case class Product (
@@ -51,6 +51,16 @@ class Utils  {
 		//audioFormats: List[String],
 		deliveryContext: String,
 		serviceId: String
+		//provider: String
+	)
+
+	case class DeliveryDVR (
+		deliveryId: String,
+		//audioLanguages: List[String],
+		//audioFormats: List[String],
+		deliveryContext: String,
+		serviceId: String,
+		provider: String
 	)
 
 	case class VOD (
@@ -72,10 +82,10 @@ class Utils  {
 		delivery: DeliveryLive
 	)
 
-	case class CloudDVR (
+	case class DVR (
 		content: Content,
 		channel: Channel,
-		delivery: DeliveryLive
+		delivery: DeliveryDVR
 	)
 
 	case class Track(
@@ -84,7 +94,7 @@ class Utils  {
 		resolution: String,
 		language: String
 	)
-	
+
 	case class Profile(
 		bitrate: Integer,
 		resolution: String,
@@ -123,15 +133,15 @@ class Utils  {
 		return liveContent
 	}
 
-	def getCloudDVR(): CloudDVR = {
+	def getDVR(): DVR = {
 
 		implicit val formats = DefaultFormats
-		val jsonCloudDVR = parse(Source.fromFile("src/test/resources/cloudDVR.json").mkString)
-		var countCloudDVR =  ((jsonCloudDVR\"cloudDVR").children).size
-		var indexCloudDVR = random.nextInt(countCloudDVR)
-		val cloudDVRContent  = (jsonCloudDVR\"cloudDVR")(indexCloudDVR).extract[CloudDVR]
+		val jsonDVR = parse(Source.fromFile("src/test/resources/DVR.json").mkString)
+		var countDVR =  ((jsonDVR\"DVR").children).size
+		var indexDVR = random.nextInt(countDVR)
+		val DVRContent  = (jsonDVR\"DVR")(indexDVR).extract[DVR]
 		
-		return cloudDVRContent
+		return DVRContent
 	}
 
 	/*def getTrack(): String = {
