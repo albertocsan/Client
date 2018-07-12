@@ -1,0 +1,14 @@
+version: "3"
+services:
+
+  cliente:
+    build:
+      context: .
+    volumes:
+      - "./Client:/Client"
+      - "./credentials:/root/.aws/credentials"
+    environment:
+      - KINESIS_STREAM=tvmetrix
+    entrypoint:
+      - sbt
+      - gatling:testOnly AnalyticsClient
