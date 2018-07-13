@@ -18,8 +18,8 @@ class AnalyticsClient extends Simulation{
   // VOD OR LIVE OR DVR
   val sessionType: String = "VOD"
   //When you do UPDATE, the system simulate one ALIVE EVENT.
-  // PLAY - UPDATE - UPDATEOPERATIONAL - STOP
   val listActions: List[String] = List("PLAY","UPDATEOPERATIONAL","STOP")
+  // PLAY - UPDATE - UPDATEOPERATIONAL - PAUSE - FW - SEEK - RW - STOP
   //Number Users at once
   val users = 1
 

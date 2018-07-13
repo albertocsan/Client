@@ -12,7 +12,7 @@ import scala.collection.JavaConversions._
 class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	val utils =  new Utils()
- 	var indexAction = 0
+	var indexAction : Int = 0
 
  	val DVR  = utils.getDVR()
  	val profileContent = utils.getProfile()
@@ -27,9 +27,13 @@ class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
  		var jsonToKinesis = ""
  		action match {
  			case "PLAY"   		     =>  jsonToKinesis = buildPlay()
- 		    case "UPDATE"			 =>  jsonToKinesis = buildUpdatePlayback()
-	    	case "UPDATEOPERATIONAL" =>  buildUpdateOperational()
-    		case "STOP"	  			 =>  jsonToKinesis = buildStop()
+			case "UPDATE"			 =>  jsonToKinesis = buildUpdatePlayback()
+	    case "UPDATEOPERATIONAL" =>  buildUpdateOperational()
+			case "SEEK"			 =>  jsonToKinesis = buildSeek()
+			case "FW"			 =>  jsonToKinesis = buildFW()
+			case "RW"			 =>  jsonToKinesis = buildRW()
+			case "PAUSE"			 =>  jsonToKinesis = buildPause()
+    	case "STOP"	  			 =>  jsonToKinesis = buildStop()
  			case _        			 =>  jsonToKinesis = ""
  		}
 		return jsonToKinesis
@@ -79,8 +83,12 @@ class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdatePlayback() :  String = {
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "PLAY")
+
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
-    	updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("trickplay", trickplay)
 
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")
@@ -97,6 +105,97 @@ class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 	}
 
+	def buildPause() :  String = {
+
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "PAUSE")
+
+		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
+		updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("trickplay", trickplay)
+
+		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
+		updatePlayback.put("action", "update-playback")
+		updatePlayback.put("params", updateParams)
+
+		var update = ""
+		try {
+			update = client.log(updatePlayback)
+		} catch {
+			case e: Exception => e.printStackTrace
+		}
+
+		return update
+	}
+
+	def buildRW() :  String = {
+
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "RW")
+
+		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
+		updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("trickplay", trickplay)
+
+		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
+		updatePlayback.put("action", "update-playback")
+		updatePlayback.put("params", updateParams)
+
+		var update = ""
+		try {
+			update = client.log(updatePlayback)
+		} catch {
+			case e: Exception => e.printStackTrace
+		}
+
+		return update
+	}
+
+	def buildFW() :  String = {
+
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "FW")
+
+		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
+		updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("trickplay", trickplay)
+
+		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
+		updatePlayback.put("action", "update-playback")
+		updatePlayback.put("params", updateParams)
+
+		var update = ""
+		try {
+			update = client.log(updatePlayback)
+		} catch {
+			case e: Exception => e.printStackTrace
+		}
+
+		return update
+	}
+
+	def buildSeek() :  String = {
+
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "SEEK")
+
+		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
+		updateParams.put("playtime",Instant.now().toString())
+		updateParams.put("trickplay", trickplay)
+
+		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
+		updatePlayback.put("action", "update-playback")
+		updatePlayback.put("params", updateParams)
+
+		var update = ""
+		try {
+			update = client.log(updatePlayback)
+		} catch {
+			case e: Exception => e.printStackTrace
+		}
+
+		return update
+	}
 	def buildUpdateOperational() = {
 
 		val codecQuality : HashMap[String,Object] = new HashMap[String,Object]
@@ -152,10 +251,15 @@ class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	def buildStop() :  String = {
 		val error : HashMap[String, Object] = new HashMap[String, Object]
 		error.put("errorCode", "z-1520")
-		error.put("reason", "cancel")
+		error.put("reason", "z-1520")
+
+		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
+		trickplay.put("trickplayMode", "SEEK")
 
 		val stopParams : HashMap[String, Object] = new HashMap[String, Object]
     	stopParams.put("playtime", Instant.now().toString())
+		  stopParams.put("trickplay", trickplay)
+		  stopParams.put("error", error)
 
    		val stopPlayback : HashMap[String, Object] = new HashMap[String, Object]
     	stopPlayback.put("action", "stop-playback")
@@ -170,4 +274,5 @@ class DVR(client : TvMetrixClient, listActions: List[String]) extends ISession{
 
 		return stop	
 	}
+
 }
