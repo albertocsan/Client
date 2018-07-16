@@ -138,12 +138,15 @@ class LIVE(client : TvMetrixClient, listActions: List[String]) extends ISession{
 	}
 
 	def buildUpdatePlayback() :  String = {
+		val device : HashMap[String, Object] = new HashMap[String, Object]
+		device.put("ip", "192.168.1.111")
 		val trickplay : HashMap[String, Object] = new HashMap[String, Object]
 		trickplay.put("trickplayMode", "PLAY")
 
 		val updateParams : HashMap[String, Object] = new HashMap[String, Object]
 		updateParams.put("playtime",Instant.now().toString())
 		updateParams.put("trickplay", trickplay)
+		updateParams.put("device", device)
 
    		val updatePlayback : HashMap[String, Object] = new HashMap[String, Object]
     	updatePlayback.put("action", "update-playback")

@@ -81,6 +81,7 @@ class Device(kinesisStream: String, sessionType: String, listActions: List[Strin
     device.put("make", deviceInfo.make)
     device.put("model", deviceInfo.model)
     device.put("deviceId", deviceInfo.deviceId)
+    device.put("ip", deviceInfo.ip)
     
 
     val configLib : HashMap[String, Object] = new HashMap[String, Object]

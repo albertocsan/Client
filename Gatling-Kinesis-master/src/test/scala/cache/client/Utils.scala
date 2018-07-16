@@ -18,7 +18,8 @@ class Utils  {
 		make: String,
 		model: String,
 		deviceId: String,
-		resolution: List[Integer]
+		resolution: List[Integer],
+		ip: String
 	)
 
 	case class Content (
